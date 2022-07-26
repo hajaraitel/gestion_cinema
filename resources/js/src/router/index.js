@@ -39,36 +39,45 @@ const routes = [
     path: '/admin/dashboard',
     name: 'admin_dashboard',
     component: () => import('@/views/admin/adminDashboard.vue'),
+    meta:{
+      requiresAuth:true,
+      authorize : 'admin'
+    }
    
   },
   {
     path: '/admin/gestionSalles',
     name: 'admin_gestion_salles',
     component: () => import('@/views/admin/gestionSalle.vue'),
+    meta:{requiresAuth:true,authorize : 'admin'}
    
   },
   {
     path: '/admin/gestionFilms',
     name: 'admin_gestion_films',
    // component: () => import('@/views/admin/gestionSalle.vue'),
+   meta:{requiresAuth:true,authorize : 'admin'}
    
   },
   {
     path: '/admin/gestionSeances',
     name: 'admin_gestion_seances',
   //  component: () => import('@/views/admin/gestionSalle.vue'),
+  meta:{requiresAuth:true,authorize : 'admin'}
    
   },
   {
     path: '/admin/gestionReservations',
     name: 'admin_gestion_reservations',
   //  component: () => import('@/views/admin/gestionSalle.vue'),
+  meta:{requiresAuth:true,authorize : 'admin'}
    
   },
   {
     path: '/admin/gestionUtilisateurs',
     name: 'admin_gestion_utilisateurs',
    // component: () => import('@/views/admin/gestionSalle.vue'),
+   meta:{requiresAuth:true,authorize : 'admin'}
    
   },
   
@@ -76,33 +85,39 @@ const routes = [
     path: '/admin/profile',
     name: 'admin_profile',
     component: () => import('@/views/pages/account-settings/AccountSettings.vue'),
+    meta:{requiresAuth:true,authorize : 'admin'}
   },
   /*user routes*/
   {
     path: '/user/dashboard',
     name: 'user_dashboard',
     component: () => import('@/views/user/userDashboard.vue'),
+    meta:{requiresAuth:true,authorize : 'user'}
   },
   
   {
     path: '/user/profile',
     name: 'user_profile',
     component: () => import('@/views/pages/account-settings/AccountSettings.vue'),
+    meta:{requiresAuth:true,authorize : 'user'}
   },
   {
     path: '/user/reservations',
     name: 'user_reservations',
     //component: () => import('@/views/pages/Login.vue'),
+    meta:{requiresAuth:true,authorize : 'user'}
   },
   {
     path: '/user/seances',
     name: 'user_seances',
     //component: () => import('@/views/pages/Login.vue'),
+    meta:{requiresAuth:true,authorize : 'user'}
   },
   {
     path: '/user/films',
     name: 'user_films',
     //component: () => import('@/views/pages/Login.vue'),
+    meta:{requiresAuth:true,authorize : 'user'}
   },
 ]
 
@@ -112,5 +127,29 @@ const router = new VueRouter({
   routes,
 });
 
+function isLoggedIn()
+{
+  return 'userToken' in sessionStorage;
+}
+
+//prevent user from accessing  routes without being connected
+//and prevent user from accessing admin routes and vice versa
+router.beforeEach((to,from,next)=>{
+  if(to.meta.requiresAuth  && !isLoggedIn())
+  {
+      next({'name':'login'});
+  }
+  else {
+    if(
+      (to.meta.authorize == 'admin' && localStorage.getItem('userRole')== 0)
+      || 
+      (to.meta.authorize == 'user' && localStorage.getItem('userRole')== 1)
+      )
+      next({'name':'error-404'});
+    else
+      next();
+
+  }
+});
 
 export default router

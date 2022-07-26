@@ -28,17 +28,14 @@ Route::post('/register',[AuthController::class,'register']);
 
 //protected routes
 Route::group(['middleware'=>['auth:sanctum']],function(){
-    //Route::post('/logout',[AuthController::class,'logout']);
-    //Route::apiResource('film', FilmController::class);
-    //Route::apiResource('salle', SalleController::class);
-    //Route::apiResource('reservation', ReservationController::class);
-    //Route::apiResource('user', UserController::class);
-    //Route::apiResource('seance', SeanceController::class);
-    //Route::apiResource('commentaire', CommentaireController::class);
-    //Route::apiResource('message', MessageController::class);
+    Route::get('getRole',[AuthController::class,'getRole']);
+    Route::apiResource('film', FilmController::class);
+    Route::apiResource('salle', SalleController::class);
+    Route::apiResource('reservation', ReservationController::class);
+    Route::apiResource('user', UserController::class);
+    Route::apiResource('seance', SeanceController::class);
+    Route::apiResource('commentaire', CommentaireController::class);
+    Route::apiResource('message', MessageController::class);
     
 }
 );
-
-//just pour le test ces route doivent etre protege !
-Route::apiResource('salle', SalleController::class);
