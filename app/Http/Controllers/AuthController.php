@@ -13,7 +13,28 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-      
+        $credentials = Validator::make($request->all(),[
+            'email' => ['required', 'email','unique:users'],
+            'password' => ['required'],
+            'nom' => ['required', 'string','max:20'],
+            'prenom' => ['required', 'string','max:20'],
+        ],[
+            'email.required'=>'L\'email est obligatoire',
+            'password.required'=>'mot de passe est obligatoire',
+            'nom.required'=>'Le nom est obligatoire',
+            'prenom.required'=>'Le prenom est obligatoire',
+            'email.email' => 'Format de l\'email est incorrect',
+            'email.unique' => 'L\'email est déjà utilisé',
+        ]); 
+
+        //cas erreur
+        if ($credentials->fails()) {
+            return response()->json([$credentials->messages()], 401);
+        }
+        //ok
+        $validated = $credentials->validated();
+
+
     } 
 
     public function login(Request $request)
@@ -27,11 +48,11 @@ class AuthController extends Controller
             'email.email' => 'format de l\'email est incorrect'
         
         ]); 
-
+        //cas erreur
         if ($credentials->fails()) {
             return response()->json([$credentials->messages()], 401);
         }
-
+        //ok
         $validated = $credentials->validated();
  
         $user = User::where('email', $validated['email'])->first();
