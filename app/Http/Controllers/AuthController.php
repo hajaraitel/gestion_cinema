@@ -13,11 +13,14 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
+
         $credentials = Validator::make($request->all(),[
             'email' => ['required', 'email','unique:users'],
             'password' => ['required'],
             'nom' => ['required', 'string','max:20'],
             'prenom' => ['required', 'string','max:20'],
+            'sexe' => ['string'],
+            'photo'=>['string']
         ],[
             'email.required'=>'L\'email est obligatoire',
             'password.required'=>'mot de passe est obligatoire',
@@ -32,9 +35,21 @@ class AuthController extends Controller
             return response()->json([$credentials->messages()], 401);
         }
         //ok
+        $img_url = "resources\js\src\assets\images\users";
         $validated = $credentials->validated();
+        $user = User::create([
+            'nom' => $validated['nom'],
+            'prenom' => $validated['prenom'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'sexe' => $validated['sexe'],
+            'photo' => $validated['sexe'] == 'femme' ? $img_url.'\female_user.png' : $img_url.'\male_user.png',
+        ]);
 
-
+        return response()->json([
+            ['success'=> "compte bien crée"
+            ]
+       ],200);
     } 
 
     public function login(Request $request)
