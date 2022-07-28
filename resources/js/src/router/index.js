@@ -96,9 +96,10 @@ const routes = [
   },
   
   {
-    path: '/user/profile',
+    path: '/user/profile/:id',
     name: 'user_profile',
     component: () => import('@/views/pages/account-settings/AccountSettings.vue'),
+    props:true,
     meta:{requiresAuth:true,authorize : 'user'}
   },
   {
@@ -132,6 +133,12 @@ function isLoggedIn()
   return 'userToken' in sessionStorage;
 }
 
+function isAdmin()
+{
+  let user = JSON.parse(localStorage.getItem('currentUser'));
+  return user.is_admin
+}
+
 //prevent user from accessing  routes without being connected
 //and prevent user from accessing admin routes and vice versa
 router.beforeEach((to,from,next)=>{
@@ -141,9 +148,9 @@ router.beforeEach((to,from,next)=>{
   }
   else {
     if(
-      (to.meta.authorize == 'admin' && localStorage.getItem('userRole')== 0)
+      (to.meta.authorize == 'admin' && !isAdmin())
       || 
-      (to.meta.authorize == 'user' && localStorage.getItem('userRole')== 1)
+      (to.meta.authorize == 'user' && isAdmin())
       )
       next({'name':'error-404'});
     else

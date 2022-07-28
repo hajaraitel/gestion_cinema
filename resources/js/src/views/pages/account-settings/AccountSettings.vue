@@ -13,11 +13,11 @@
     <!-- tabs item -->
     <v-tabs-items v-model="tab">
       <v-tab-item>
-        <account-settings-account :account-data="accountSettingData.account"></account-settings-account>
+        <account-settings-account :accountData="userData"></account-settings-account>
       </v-tab-item>
 
       <v-tab-item>
-        <account-settings-security></account-settings-security>
+        <account-settings-security :accountData="userData"></account-settings-security>
       </v-tab-item>
 
     </v-tabs-items>
@@ -28,11 +28,36 @@
 import { mdiAccountOutline, mdiLockOpenOutline, mdiInformationOutline } from '@mdi/js'
 import { ref } from '@vue/composition-api'
 
-// demos
 import AccountSettingsAccount from './AccountSettingsAccount.vue'
 import AccountSettingsSecurity from './AccountSettingsSecurity.vue'
+import axiosClient from '@/axios'
 
 export default {
+  data () {
+    return {
+      userData:{},
+      userId : this.$route.params.id,
+      errors:{}
+    }
+  },
+  
+  mounted(){
+    this.getUser(this.userId)
+  },
+  methods: {
+    getUser(id){
+      //
+      axiosClient.get("/user/"+id)
+        .then(resp=>{
+            if(resp.status==200)
+                this.userData = resp.data;
+        })
+        .catch(err=>{
+          console.log(err)
+        })
+      
+    }
+  },
   components: {
     AccountSettingsAccount,
     AccountSettingsSecurity,
@@ -46,23 +71,9 @@ export default {
       { title: 'Sécurité', icon: mdiLockOpenOutline },
     ]
 
-    // account settings data
-    const accountSettingData = {
-      account: {
-        avatarImg: require('@/assets/images/avatars/1.png').default,
-        username: 'johnDoe',
-        name: 'john Doe',
-        email: 'johnDoe@example.com',
-        role: 'Admin',
-        status: 'Active',
-        company: '06000000',
-      },
-    }
-
     return {
       tab,
       tabs,
-      accountSettingData,
       icons: {
         mdiAccountOutline,
         mdiLockOpenOutline,

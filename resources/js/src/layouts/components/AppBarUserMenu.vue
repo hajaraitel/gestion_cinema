@@ -14,7 +14,7 @@
           </v-avatar>
           
         <div class="d-inline-flex flex-column justify-center ms-3" style="vertical-align: middle">
-          <span class="text--primary font-weight-semibold mb-n1"> {{ this.username }} </span>
+          <span class="text--primary font-weight-semibold mb-n1"> {{ this.user.nom+" "+this.user.prenom }} </span>
           <!--<small class="text--disabled text-capitalize">Admin</small>-->
         </div>
       </div>
@@ -60,20 +60,19 @@ import {
 export default {
   data () {
     return {
-      username:''
+      user:{}
     }
   },
   methods: {
     logout(){
       
       sessionStorage.removeItem('userToken');
-      sessionStorage.removeItem('userName');
-      localStorage.removeItem('userRole');
+      localStorage.removeItem('currentUser');
       this.$router.push('/');
     }
   },
   mounted(){
-    this.username = sessionStorage.getItem('userName')
+    this.user = JSON.parse(localStorage.getItem('currentUser'))
   },
   setup() {
     return {
