@@ -9,5 +9,12 @@ const axiosClient = axios.create({
     
 });
 
+//authentication
+axiosClient.interceptors.request.use(config=>{
+    if (sessionStorage.getItem('userToken')){ 
+     config.headers["Authorization"] = "Bearer " + sessionStorage.getItem('userToken')
+   }
+   return config;
+ });
 
 export default axiosClient;

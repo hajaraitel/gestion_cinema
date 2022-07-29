@@ -14,8 +14,8 @@
           </v-avatar>
           
         <div class="d-inline-flex flex-column justify-center ms-3" style="vertical-align: middle">
-          <span class="text--primary font-weight-semibold mb-n1"> John Doe </span>
-          <small class="text--disabled text-capitalize">Admin</small>
+          <span class="text--primary font-weight-semibold mb-n1"> {{ this.username }} </span>
+          <!--<small class="text--disabled text-capitalize">Admin</small>-->
         </div>
       </div>
 
@@ -54,31 +54,31 @@
 <script>
 import {
   mdiAccountOutline,
-  mdiEmailOutline,
-  mdiCheckboxMarkedOutline,
-  mdiChatOutline,
-  mdiCogOutline,
-  mdiCurrencyUsd,
-  mdiHelpCircleOutline,
   mdiLogoutVariant,
 } from '@mdi/js'
 
 export default {
+  data () {
+    return {
+      username:''
+    }
+  },
   methods: {
     logout(){
-      this.$router.push('/')
+      
+      sessionStorage.removeItem('userToken');
+      sessionStorage.removeItem('userName');
+      localStorage.removeItem('userRole');
+      this.$router.push('/');
     }
+  },
+  mounted(){
+    this.username = sessionStorage.getItem('userName')
   },
   setup() {
     return {
       icons: {
         mdiAccountOutline,
-        mdiEmailOutline,
-        mdiCheckboxMarkedOutline,
-        mdiChatOutline,
-        mdiCogOutline,
-        mdiCurrencyUsd,
-        mdiHelpCircleOutline,
         mdiLogoutVariant,
       },
     }
