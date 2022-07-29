@@ -25,6 +25,13 @@
 
         <!-- login form -->
         <v-card-text>
+        <!--Error alert-->
+        <v-alert v-for="(errorArray, idx) in errors" :key="idx" type="error">
+          <div v-for="(allErrors, idx) in errorArray" :key="idx">
+                <span >{{ allErrors }} </span>
+          </div>  
+        </v-alert>
+        <!--End Error alert-->
           <v-form @submit.prevent="handleLogin">
             <v-text-field
               v-model="user.email"
@@ -88,6 +95,7 @@ import { mdiEyeOutline, mdiEyeOffOutline } from '@mdi/js'
 import { ref } from '@vue/composition-api'
 import axios from 'axios';
 import axiosClient from '@/axios/index';
+import store from '@/store';
 
 export default {
   setup() {
@@ -112,9 +120,35 @@ export default {
   },
   methods:{
     handleLogin(){
-      
-    }
-  }
+      axios.get('/sanctum/csrf-cookie').then(response => {
+        axiosClient.post('login',this.user).then(response=>{
+          if(response.status==200){
+
+            sessionStorage.setItem('userToken', response.data.token);
+            sessionStorage.setItem('userName',response.data.user.nom+' '+response.data.user.prenom)
+            localStorage.setItem('userRole',response.data.user.is_admin)
+            
+            this.$store.state.currentUser.data = response.data.user;
+
+            if(response.data.user.is_admin)
+              this.$router.push('/admin/dashboard');
+            else if(!response.data.user.is_admin)
+              this.$router.push('/user/dashboard');  
+            else
+              this.$router.push('/'); 
+
+            this.errors = {}
+            
+          }
+        }).catch(error=>{
+            console.log(error.response.data)
+            this.errors = error.response.data;
+            sessionStorage.removeItem('userToken');
+        });
+      });
+    },
+  },
+  
 }
 </script>
 

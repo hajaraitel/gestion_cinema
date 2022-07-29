@@ -28,7 +28,7 @@
         <v-card-text>
           <v-form>
             <v-text-field
-              v-model="username"
+              v-model="user.nom"
               outlined
               label="nom"
               placeholder="Doe"
@@ -36,7 +36,7 @@
               class="mb-3"
             ></v-text-field>
             <v-text-field
-              v-model="username"
+              v-model="user.prenom"
               outlined
               label="prenom"
               placeholder="John"
@@ -45,7 +45,7 @@
             ></v-text-field>
 
             <v-text-field
-              v-model="email"
+              v-model="user.email"
               outlined
               label="Email"
               placeholder="john@example.com"
@@ -54,7 +54,8 @@
             ></v-text-field>
 
             <v-text-field
-              v-model="password"
+              class="mb-5"
+              v-model="user.password"
               outlined
               :type="isPasswordVisible ? 'text' : 'password'"
               label="Mot de passe"
@@ -63,7 +64,20 @@
               hide-details
               @click:append="isPasswordVisible = !isPasswordVisible"
             ></v-text-field>
-            <v-btn block color="primary" class="mt-6"> S'inscrire</v-btn>
+            <span class="mt-5">Sexe</span>
+            <v-radio-group
+              v-model="user.sexe" row
+              mandatory>
+              <v-radio
+                label="Femme"
+                value="femme"
+              ></v-radio>
+              <v-radio
+                label="Homme"
+                value="homme"
+              ></v-radio>
+            </v-radio-group>
+            <v-btn block color="primary" class="mt-6" @click.prevent="register"> S'inscrire</v-btn>
           </v-form>
         </v-card-text>
 
@@ -99,44 +113,36 @@
 
 <script>
 // eslint-disable-next-line object-curly-newline
-import { mdiFacebook, mdiTwitter, mdiGithub, mdiGoogle, mdiEyeOutline, mdiEyeOffOutline } from '@mdi/js'
+import { mdiEyeOutline, mdiEyeOffOutline } from '@mdi/js'
 import { ref } from '@vue/composition-api'
+import axiosClient from '@/axios'
 
 export default {
+  
+  data () {
+    return {
+      user:{nom:'',prenom:'',email:'',password:'',sexe:''},
+      errors:{}
+    }
+  },
+methods: {
+  register(){
+    axiosClient.post('/register', this.user)
+    .then(resp=>{
+                if(resp.status==200)
+                  this.$router.push('/')
+                })
+    .catch((error) =>{
+        this.errors = error.response.data.errors;
+    });
+  },
+  
+
+  },
   setup() {
     const isPasswordVisible = ref(false)
-    const username = ref('')
-    const email = ref('')
-    const password = ref('')
-    const socialLink = [
-      {
-        icon: mdiFacebook,
-        color: '#4267b2',
-        colorInDark: '#4267b2',
-      },
-      {
-        icon: mdiTwitter,
-        color: '#1da1f2',
-        colorInDark: '#1da1f2',
-      },
-      {
-        icon: mdiGithub,
-        color: '#272727',
-        colorInDark: '#fff',
-      },
-      {
-        icon: mdiGoogle,
-        color: '#db4437',
-        colorInDark: '#db4437',
-      },
-    ]
-
     return {
       isPasswordVisible,
-      username,
-      email,
-      password,
-      socialLink,
 
       icons: {
         mdiEyeOutline,
