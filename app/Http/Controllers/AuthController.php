@@ -35,7 +35,7 @@ class AuthController extends Controller
             return response()->json([$credentials->messages()], 401);
         }
         //ok
-        $img_url = "resources\js\src\assets\images\users";
+        $img_url = "/images/users";
         $validated = $credentials->validated();
         $user = User::create([
             'nom' => $validated['nom'],
@@ -43,12 +43,11 @@ class AuthController extends Controller
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'sexe' => $validated['sexe'],
-            'photo' => $validated['sexe'] == 'femme' ? $img_url.'\female_user.png' : $img_url.'\male_user.png',
+            'photo' => $img_url.'\user.png',
         ]);
 
         return response()->json([
-            ['success'=> "compte bien crée"
-            ]
+            ['success'=> "compte bien crée"]
        ],200);
     } 
 

@@ -98,16 +98,16 @@
       :src="require(`@/assets/images/misc/mask-${$vuetify.theme.dark ? 'dark' : 'light'}.png`).default"
     />
 
-    <!-- tree -->
+    <!-- tree 
     <v-img class="auth-tree" width="247" height="185" :src="require('@/assets/images/misc/tree.png').default"></v-img>
-
-    <!-- tree  -->
+-->
+    <!-- tree  
     <v-img
       class="auth-tree-3"
       width="377"
       height="289"
       :src="require('@/assets/images/misc/tree-3.png').default"
-    ></v-img>
+    ></v-img>-->
   </div>
 </template>
 

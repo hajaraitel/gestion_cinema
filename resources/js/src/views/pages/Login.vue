@@ -76,16 +76,16 @@
       :src="require(`@/assets/images/misc/mask-${$vuetify.theme.dark ? 'dark' : 'light'}.png`).default"
     />
 
-    <!-- tree -->
-    <v-img class="auth-tree" width="247" height="185" :src="require('@/assets/images/misc/tree.png').default"></v-img>
-
-    <!-- tree  -->
+    <!-- tree 
+    <v-img class="auth-tree" width="400" height="285" :src="require('@/assets/images/misc/movie.png').default"></v-img>
+-->
+    <!-- tree  
     <v-img
       class="auth-tree-3"
-      width="377"
-      height="289"
-      :src="require('@/assets/images/misc/tree-3.png').default"
-    ></v-img>
+      width="247"
+      height="185"
+      :src="require('@/assets/images/misc/tree.png').default"
+    ></v-img>-->
   </div>
 </template>
 
@@ -125,8 +125,7 @@ export default {
           if(response.status==200){
 
             sessionStorage.setItem('userToken', response.data.token);
-            sessionStorage.setItem('userName',response.data.user.nom+' '+response.data.user.prenom)
-            localStorage.setItem('userRole',response.data.user.is_admin)
+            localStorage.setItem('currentUser',JSON.stringify(response.data.user))
             
             this.$store.state.currentUser.data = response.data.user;
 
