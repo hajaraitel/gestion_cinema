@@ -91,7 +91,7 @@ class UserController extends Controller
         if($user)
         {
             if($user->photo != $validated['photo']){
-                $img_url = 'assets/images/users/';
+                $img_url = '/images/users/';
                 $upload_path = public_path('images/users');
                 //$generated_new_name = $user->idUser . '_' . $validated['photo'];
                 $img = $img_url.$validated['photo'];

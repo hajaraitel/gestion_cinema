@@ -35,7 +35,7 @@ class AuthController extends Controller
             return response()->json([$credentials->messages()], 401);
         }
         //ok
-        $img_url = "assets/images/users";
+        $img_url = "/images/users";
         $validated = $credentials->validated();
         $user = User::create([
             'nom' => $validated['nom'],
