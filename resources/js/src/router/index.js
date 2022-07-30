@@ -109,15 +109,22 @@ const routes = [
     meta:{requiresAuth:true,authorize : 'user'}
   },
   {
-    path: '/user/seances',
+    path: '/user/seances/:idFilm?',
     name: 'user_seances',
-    //component: () => import('@/views/pages/Login.vue'),
+    component: () => import('@/views/user/userSeance.vue'),
     meta:{requiresAuth:true,authorize : 'user'}
   },
   {
     path: '/user/films',
     name: 'user_films',
     //component: () => import('@/views/pages/Login.vue'),
+    meta:{requiresAuth:true,authorize : 'user'}
+  },
+  {
+    path: '/user/film/:id',
+    name: 'user_film_detail',
+    component: () => import('@/views/user/userFilmDetail.vue'),
+    props:true,
     meta:{requiresAuth:true,authorize : 'user'}
   },
 ]
