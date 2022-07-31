@@ -10,7 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentaireController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\SeanceController;
-
+use App\Services\FilmService;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +36,8 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     //Route::apiResource('seance', SeanceController::class);
     //Route::apiResource('commentaire', CommentaireController::class);
     //Route::apiResource('message', MessageController::class);
-    
+    Route::get('/film/{film}',[FilmService::class,'show']);
+    Route::get('/film',[FilmService::class,'index']);
 }
 );
 
