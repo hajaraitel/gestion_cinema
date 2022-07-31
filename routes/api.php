@@ -10,7 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentaireController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\SeanceController;
-
+use App\Services\FilmService;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,14 +28,15 @@ Route::post('/register',[AuthController::class,'register']);
 
 //protected routes
 Route::group(['middleware'=>['auth:sanctum']],function(){
-    Route::get('getRole',[AuthController::class,'getRole']);
-    Route::apiResource('film', FilmController::class);
-    Route::apiResource('salle', SalleController::class);
-    Route::apiResource('reservation', ReservationController::class);
-    Route::apiResource('user', UserController::class);
-    Route::apiResource('seance', SeanceController::class);
-    Route::apiResource('commentaire', CommentaireController::class);
-    Route::apiResource('message', MessageController::class);
-    
+    //Route::post('/logout',[AuthController::class,'logout']);
+    //Route::apiResource('film', FilmController::class);
+    //Route::apiResource('salle', SalleController::class);
+    //Route::apiResource('reservation', ReservationController::class);
+    //Route::apiResource('user', UserController::class);
+    //Route::apiResource('seance', SeanceController::class);
+    //Route::apiResource('commentaire', CommentaireController::class);
+    //Route::apiResource('message', MessageController::class);
+    Route::get('/film/{film}',[FilmService::class,'show']);
+    Route::get('/film',[FilmService::class,'index']);
 }
 );
