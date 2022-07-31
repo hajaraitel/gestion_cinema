@@ -14,7 +14,7 @@ class FilmController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -46,7 +46,7 @@ class FilmController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
