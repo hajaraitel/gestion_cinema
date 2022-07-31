@@ -14,8 +14,7 @@ class FilmController extends Controller
      */
     public function index()
     {
-        $list_film=Film::all();
-        return response()->json($list_film);
+        
     }
 
     /**
@@ -47,7 +46,7 @@ class FilmController extends Controller
      */
     public function show($id)
     {
-        return response()->json(Film::find($id));
+        
     }
 
     /**

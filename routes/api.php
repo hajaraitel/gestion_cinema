@@ -36,7 +36,7 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::apiResource('seance', SeanceController::class);
     Route::apiResource('commentaire', CommentaireController::class);
     Route::apiResource('message', MessageController::class);
-    Route::get('/film/{film}',[FilmService::class,'show']);
-    Route::get('/film',[FilmService::class,'index']);
+    Route::get('/films/{film}',[FilmService::class,'show']);
+    Route::get('/films',[FilmService::class,'index']);
 }
 );

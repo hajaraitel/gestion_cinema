@@ -54,7 +54,7 @@ export default{
   methods: {
     getFilm(id){
       //
-      axiosClient.get("/film/"+id)
+      axiosClient.get("/films/"+id)
         .then(resp=>{
             if(resp.status==200)
                 this.filmData = resp.data;

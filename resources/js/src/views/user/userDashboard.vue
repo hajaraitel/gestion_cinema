@@ -25,7 +25,7 @@ export default {
   
   methods:{
     getFilmList(){
-      axiosClient.get("/film")
+      axiosClient.get("/films")
         .then(resp=>{
             if(resp.status==200)
                 this.filmList = resp.data;
