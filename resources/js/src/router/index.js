@@ -62,7 +62,7 @@ const routes = [
   {
     path: '/admin/gestionReservations',
     name: 'admin_gestion_reservations',
-  //  component: () => import('@/views/admin/gestionSalle.vue'),
+   component: () => import('@/views/admin/gestionReservation.vue'),
    
   },
   {
