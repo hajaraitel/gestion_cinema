@@ -42,3 +42,5 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
 
 //just pour le test ces route doivent etre protege !
 Route::apiResource('salle', SalleController::class);
+
+Route::apiResource('user', UserController::class);
