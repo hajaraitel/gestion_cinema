@@ -31,8 +31,8 @@
               Voir Detail
               </span>
             </v-btn>
-            <v-btn text color="primary" dark>
-              <span class="ms-2">Voir Seances</span>
+            <v-btn text color="primary" dark :to="{ name: 'user_seances' , params: { id: filmData.idFilm }}">
+              <span class="ms-2" >Voir Seances</span>
             </v-btn>
           </v-card-actions>
         </div>
