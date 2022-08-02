@@ -10,15 +10,19 @@
           vertical
         ></v-divider>
         <v-spacer></v-spacer>
-<!--Ajouter salle from-->
-       
-
-<!-- End Ajouter salle from-->
-<!-- Start supprimer salle -->
-
-        
-<!-- End supprimer salle -->
       </v-toolbar>
+    </template>
+     
+    <template v-slot:item.photo="{ item }">
+          <v-img
+          :src="require(`@/assets${item.photo}`).default"
+          max-height="40px"
+          max-width="40px"
+          alt="logo"
+          contain
+          eager
+          class="app-logo me-3"
+        ></v-img>
     </template>
     <template v-slot:item.is_admin="{ item }">
      <v-chip
@@ -56,13 +60,15 @@ export default {
     
       /* headers of table*/
       headers: [
-        
+         { text: 'Photo', value: 'photo', sortable: false },
         { text: 'Email', value: 'email', sortable: false },
           { text: 'Nom', value: 'nom', sortable: false },
         { text: 'Prénom', value: 'prenom', sortable: false },
+        { text: 'Sexe', value: 'sexe', sortable: false },
        { text: 'Téléphone', value: 'telephone',sortable: false},
-         { text: 'Photo', value: 'photo', sortable: false },
          { text: 'Role', value: 'is_admin', sortable: false },
+         
+          
       ],
      
       
