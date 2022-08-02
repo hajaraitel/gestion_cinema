@@ -33,8 +33,17 @@
             <p class="text-xs mb-0">
               {{ data.title }}
             </p>
-            <h3 class="text-xl font-weight-semibold">
-              {{ data.total }}
+            <h3 class="text-xl font-weight-semibold" v-if="data.title=='Films'">
+              {{ countFilms }}
+            </h3>
+            <h3 class="text-xl font-weight-semibold" v-else-if="data.title=='Utilisateurs'">
+              {{ countUser }}
+            </h3>
+            <h3 class="text-xl font-weight-semibold" v-else-if="data.title=='Reservations'">
+              {{ countReservation }}
+            </h3>
+            <h3 class="text-xl font-weight-semibold" v-else-if="data.title=='Revenue'">
+              {{ sumReservation }}$
             </h3>
           </div>
         </v-col>
@@ -50,30 +59,50 @@ import {
   mdiMovieOpenOutline 
 
 } from '@mdi/js'
+import axiosClient from '@/axios/index';
+import data from './datatable-data';
+//import { count } from 'console';
 
 export default {
+   data () {
+    return {
+        countUser:null,
+        countFilms:null,
+        countReservation:null,
+        sumReservation:null,
+    }
+  },
+   mounted(){
+    axiosClient.get('/countUser').then(resp => {this.countUser=resp.data.users_count});
+     axiosClient.get('/countFilm').then(resp => {this.countFilms=resp.data.films_count});
+     axiosClient.get('/countReservation').then(resp => {this.countReservation=resp.data.reservations_count});
+    axiosClient.get('/sumReservation').then(resp => {this.sumReservation=resp.data.reservations_sum});
+
+ },
+
   setup() {
     const statisticsData = [
       {
         title: 'Films',
-        total: '50',
+        total: '',
+        
       },
       {
         title: 'Utilisateurs',
-        total: '20',
+        total: '',
       },
       {
         title: 'Reservations',
-        total: '15',
+        total: '',
       },
       {
         title: 'Revenue',
-        total: '$88',
+        total: '',
       },
     ]
-
+   
     const resolveStatisticsIconVariation = data => {
-      if (data === 'Films') return { icon: mdiMovieOpenOutline , color: 'primary' }
+      if (data === 'Films') return {icon: mdiMovieOpenOutline , color: 'primary' }
       if (data === 'Utilisateurs') return { icon: mdiAccountOutline, color: 'success' }
       if (data === 'Reservations') return { icon: mdiLabelOutline, color: 'warning' }
       if (data === 'Revenue') return { icon: mdiCurrencyUsd, color: 'info' }

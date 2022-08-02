@@ -82,4 +82,15 @@ class FilmController extends Controller
     {
         //
     }
+    public function countFilm()
+    {
+        $films = Film::all();
+
+        $allFilms = [
+            'films' => $films,
+            'films_count' => $films->count()
+        ];
+
+        return $allFilms;
+    }
 }

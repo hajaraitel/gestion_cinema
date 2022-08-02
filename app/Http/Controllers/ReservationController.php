@@ -82,4 +82,27 @@ class ReservationController extends Controller
     {
         //
     }
+
+    public function countReservation()
+    {
+        $reservations = Reservation::all();
+
+        $allReservations = [
+            'reservations' => $reservations,
+            'reservations_count' => $reservations->count()
+        ];
+
+        return $allReservations;
+    }
+    public function sumReservation()
+    {
+        $reservations = Reservation::all();
+
+        $allReservations = [
+            'reservations' => $reservations,
+            'reservations_sum' => $reservations->sum('prix_total')
+        ];
+
+        return $allReservations;
+    }
 }

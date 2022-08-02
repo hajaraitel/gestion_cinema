@@ -82,4 +82,15 @@ class UserController extends Controller
     {
         //
     }
+    public function countUser()
+    {
+        $users = User::all();
+
+        $allUsers = [
+            'users' => $users,
+            'users_count' => $users->count()
+        ];
+
+        return $allUsers;
+    }
 }
