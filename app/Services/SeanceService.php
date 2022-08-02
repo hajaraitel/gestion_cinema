@@ -2,6 +2,7 @@
 
 namespace App\Services;
 use App\Models\Seance;
+use Illuminate\Support\Facades\DB;
 
 class SeanceService
 {
@@ -10,7 +11,12 @@ class SeanceService
      */
     public function index()
     {
-        $list_seances=Seance::all();
+        $list_seances = DB::table('seances')
+            ->Join('salles', 'salles.idSalle', '=', 'seances.idSalle')
+            ->Join('films', 'films.idFilm', '=', 'seances.idFilm')
+            ->select('seances.*', 'salles.nom as nom_salle','salles.capacite','films.titre')
+            ->get();
+        
         return response()->json($list_seances);
     }
 
