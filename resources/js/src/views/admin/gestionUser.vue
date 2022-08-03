@@ -12,7 +12,22 @@
         <v-spacer></v-spacer>
       </v-toolbar>
     </template>
-     
+      <template v-slot:item.update_role="{ item }">
+     <v-btn
+     class="my-2"
+              color="primary"
+              fab
+              x-small
+              dark
+            >
+               <v-icon
+        small
+        @click=""
+      >
+        {{ icons.mdiPencil }}
+      </v-icon>
+            </v-btn>
+</template>
     <template v-slot:item.photo="{ item }">
           <v-img
           :src="require(`@/assets${item.photo}`).default"
@@ -66,7 +81,8 @@ export default {
         { text: 'Prénom', value: 'prenom', sortable: false },
         { text: 'Sexe', value: 'sexe', sortable: false },
        { text: 'Téléphone', value: 'telephone',sortable: false},
-         { text: 'Role', value: 'is_admin', sortable: false },
+         { text: 'Rôle', value: 'is_admin', sortable: false },
+         { text: 'Modifier rôle', value: 'update_role', sortable: false },
          
           
       ],
@@ -79,7 +95,13 @@ export default {
       
       
     }),
-    
+    setup() {
+        return {
+        icons: {
+           mdiPencil
+        },
+        }
+    },
 
     created () {
       this.initialize()
@@ -97,6 +119,11 @@ export default {
         if (is_admin == 0) return 'primary'
         else if (is_admin == 1) return 'error'
         
+      },
+
+      updateRole(item)
+      {
+
       },
 
 
