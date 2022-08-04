@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Reservation;
 
@@ -14,7 +14,12 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        //
+        $list_reservation= DB::table('reservations')
+        ->Join('users','reservations.idUser','=',"users.idUser")
+        ->Join('seances','reservations.idSeance','=',"seances.idSeance")
+        ->select('reservations.*','users.nom','users.prenom','users.email','seances.date_seance',)
+        ->get();
+        return response()->json($list_reservation);
     }
 
     /**
