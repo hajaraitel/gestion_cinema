@@ -32,11 +32,20 @@
     <template v-slot:item.horaire="{ item }">
         {{ item.horaire.substring(0, item.horaire.length-3) }}
     </template>
+    <!--affichage capacite-->
+    <template v-slot:item.capacite="{ item }"> 
+        {{ 
+        getAvaibility(item.idSeance)
+        
+         }}
+         {{ is_full }}
+    </template>
     <!--affichage reservation-->
     <template v-slot:item.reserver="{ item }"> 
         <v-btn class="ma-2"
       outlined
-      color="indigo">Reserver</v-btn>
+      color="primary" :to="{name :'user_seance_reserver', params:{idSeance:item.idSeance}}"
+      >Reserver</v-btn>
     </template>
 
     </v-data-table>
@@ -51,6 +60,10 @@ import axiosClient from '@/axios'
     },
     getSeancesByFilm(idFilm){
         axiosClient.get('/seances/film/'+idFilm).then(resp => {this.seances=resp.data});
+    },
+    getAvaibility(idSeance)
+    {
+      axiosClient.get('/availability/'+idSeance).then(resp => {this.is_full=resp.data});
     }
 
   },
@@ -60,9 +73,11 @@ import axiosClient from '@/axios'
         this.getSeancesByFilm(this.$route.params.id);
     else
         this.getSeances()
+    
   },
     data () {
       return {
+        is_full:false,
         search: '',
         headers: [
           {
@@ -71,13 +86,14 @@ import axiosClient from '@/axios'
             sortable: true,
             value: 'titre',
           },
-          { text: 'Salle', value: 'nom_salle' },
-          { text: 'Date seance', value: 'date_seance' },
-          { text: 'Horaire', value: 'horaire' },
-          { text: 'Prix', value: 'prix' },
-          { text: 'Version', value: 'version' },
-          { text: 'Capacité', value: 'capacite' },
-          { text: 'Reservation', value: 'reserver' },
+          { text: 'Salle', value: 'nom_salle',},
+          { text: 'Date seance', value: 'date_seance', },
+          { text: 'Horaire', value: 'horaire', },
+          { text: 'Prix', value: 'prix', },
+          { text: 'Version', value: 'version', },
+          { text: 'Capacité', value: '', },
+          { text: 'Reservation', value: 'reserver', },
+         
         ],
         seances: [],
       }

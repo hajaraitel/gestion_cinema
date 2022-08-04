@@ -103,9 +103,9 @@ const routes = [
     meta:{requiresAuth:true,authorize : 'user'}
   },
   {
-    path: '/user/reservations',
+    path: '/user/reservations/:id',
     name: 'user_reservations',
-    //component: () => import('@/views/pages/Login.vue'),
+    component: () => import('@/views/user/userReservation.vue'),
     meta:{requiresAuth:true,authorize : 'user'}
   },
   {
@@ -115,15 +115,16 @@ const routes = [
     meta:{requiresAuth:true,authorize : 'user'}
   },
   {
-    path: '/user/films',
-    name: 'user_films',
-    //component: () => import('@/views/pages/Login.vue'),
-    meta:{requiresAuth:true,authorize : 'user'}
-  },
-  {
     path: '/user/film/:id',
     name: 'user_film_detail',
     component: () => import('@/views/user/userFilmDetail.vue'),
+    props:true,
+    meta:{requiresAuth:true,authorize : 'user'}
+  },
+  {
+    path: '/user/reserver/:idSeance',
+    name: 'user_seance_reserver',
+    component: () => import('@/views/user/userSeanceReserver.vue'),
     props:true,
     meta:{requiresAuth:true,authorize : 'user'}
   },

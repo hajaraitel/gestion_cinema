@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Seance;
+use Illuminate\Support\Facades\DB;
 
 class SeanceController extends Controller
 {
@@ -46,7 +47,14 @@ class SeanceController extends Controller
      */
     public function show($id)
     {
-        //
+        $seance = DB::table('seances')
+            ->Join('salles', 'salles.idSalle', '=', 'seances.idSalle')
+            ->Join('films', 'films.idFilm', '=', 'seances.idFilm')
+            ->select('seances.*', 'salles.nom as nom_salle','salles.capacite','films.titre')
+            ->where('seances.idSeance', '=', $id)
+            ->get()->first();
+        
+        return response()->json($seance);
     }
 
     /**

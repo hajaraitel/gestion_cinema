@@ -35,9 +35,8 @@
         :icon="icons.mdiAccountCogOutline"
       ></nav-menu-link>
       <v-divider class="mt-5 mb-5"></v-divider>
-      <nav-menu-link title="Mes reservations" :to="{ name: 'user_reservations' }" :icon="icons.mdiClipboardOutline"></nav-menu-link>
+      <nav-menu-link title="Mes reservations" :to="{ name: 'user_reservations' ,params: { id: this.user.idUser }}" :icon="icons.mdiClipboardOutline"></nav-menu-link>
       <nav-menu-link title="Voir Seances" :to="{ name: 'user_seances' }" :icon="icons.mdiEyeOutline"></nav-menu-link>
-      <nav-menu-link title="Voir Films" :to="{ name: 'user_films' }" :icon="icons.mdiMovieOpenOutline "></nav-menu-link>
   </v-list>
     
   </v-navigation-drawer>
