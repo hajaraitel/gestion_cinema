@@ -15,11 +15,15 @@
       :headers="headers"
       :items="reserv"
       :search="search"
+      :single-expand="singleExpand"
+      :expanded.sync="expanded"
+      item-key="idReservation"
+      show-expand
     >
          <!--affichage film-->
         <template v-slot:item.titre="{ item }"> 
             <router-link :to="{ name: 'user_film_detail', params: { id: item.idFilm } }" >
-                <span>{{ item.titre }}</span>
+                <span class="text-wrap">{{ item.titre }}</span>
             </router-link>
         </template>
         <!--affichage prix-->
@@ -65,9 +69,9 @@
     </template>
     <template v-slot:item.actions="{ item }">
       <v-btn
-        width="90"
-        dark
+        class="secondary"
         small
+        width="95"
         @click="cancelItem(item)"
       >
         <v-icon
@@ -75,8 +79,15 @@
           left
         >
           {{ icons.mdiCancel }}
-        </v-icon>Cancel
+        </v-icon>Annuler
       </v-btn>
+      
+    </template>
+    <!--expanded-->
+    <template v-slot:expanded-item="{ headers, item }">
+      <td :colspan="headers.length">
+        Date réservation : {{ item.date_reservation }} 
+      </td>
     </template>
     </v-data-table>
   </v-card>
@@ -138,9 +149,10 @@ import { mdiCancel } from '@mdi/js';
           { text: 'Nb adult', value: 'nb_adult', class:"purple darken-4",},
           { text: 'Nb enfant', value: 'nb_enfant' ,class:"purple darken-4",},
           { text: 'Total', value: 'prix_total' ,class:"purple darken-4",},
-          { text: 'Date réservation', value: 'date_reservation', class:"purple darken-4",},
+         // { text: 'Date réservation', value: 'date_reservation', class:"purple darken-4",},
           { text: 'status', value: 'est_annule' ,class:"purple darken-4",},
           { text: 'Actions', value: 'actions', sortable: false },
+          { text: '', value: 'data-table-expand' },
         ],
         reserv: [],
         icons: {
@@ -149,6 +161,8 @@ import { mdiCancel } from '@mdi/js';
         dialogCancel: false,
         canceledItem:{},
         canceledIndex:-1,
+        expanded: [],
+        singleExpand: false,
       }
     },
   }

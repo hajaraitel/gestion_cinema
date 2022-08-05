@@ -43,7 +43,7 @@ class AuthController extends Controller
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'sexe' => $validated['sexe'],
-            'photo' => $img_url.'\user.png',
+            'photo' => $img_url.'/user.png',
         ]);
 
         return response()->json([
