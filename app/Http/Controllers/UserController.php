@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -122,4 +123,30 @@ class UserController extends Controller
     {
         //
     }
+
+    /**
+     * update password
+     */
+    public function update_password(Request $request, $id)
+    {
+        $user = User::find($id);
+        $actual_pd = $request->mp_actuel;
+        if($user)
+        {   
+            //check if current password is ok
+            if (Hash::check($actual_pd, $user->password)) {
+                $user->password = Hash::make($request->mp_nouveau);
+                $user->save();
+                return response()->json([
+                    ['success'=> "mot de passe modifié"]
+            ],200);
+                
+            }else
+            return response()->json(["error"=>"Le mot de passe actuel n'est pas correct"], 400);
+
+            
+        }
+        return response()->json(["error"=>"user not found"], 400);
+    }
+
 }

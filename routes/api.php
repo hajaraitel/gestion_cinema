@@ -51,6 +51,8 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::put('/userRole/{user}',[UserController::class,'updateRole']);
     //
     Route::get('/availability/{idSeance}',[SeanceService::class,'seance_remplie']);
+    //
+    Route::put('/updatePassword/{idUser}',[UserController::class,'update_password']);
 }
 );
 

@@ -40,6 +40,7 @@
               label="Nom"
               dense
               outlined
+              :rules="[v => !!v || 'Champs obligatoire']"
             ></v-text-field>
           </v-col>
 
@@ -52,6 +53,7 @@
               label="Prenom"
               dense
               outlined
+              :rules="[v => !!v || 'Champs obligatoire']"
             ></v-text-field>
           </v-col>
 
@@ -64,6 +66,7 @@
               label="E-mail"
               dense
               outlined
+              readonly
             ></v-text-field>
           </v-col>
 
@@ -183,7 +186,8 @@ export default {
     return {
       image: undefined,
       // to save image url
-      imageUrl: ""
+      imageUrl: "",
+      valid: true,
     }
   },
  /* beforeUpdate () {
