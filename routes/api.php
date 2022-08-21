@@ -44,3 +44,4 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
 Route::apiResource('salle', SalleController::class);
 
 Route::apiResource('user', UserController::class);
+Route::put('users/{id}',[UserController::class,'updateRole']);

@@ -22,7 +22,7 @@
             >
                <v-icon
         small
-        @click=""
+        @click="updateRole(item)"
       >
         {{ icons.mdiPencil }}
       </v-icon>
@@ -121,9 +121,14 @@ export default {
         
       },
 
-      updateRole(item)
+      updateRole($item)
       {
-
+        axiosClient.put("/users/"+$item.idUser)
+                .then(resp=>{
+                    if(resp.status==200)
+                        console.log("success")
+                });
+    window.location.reload();
       },
 
 
