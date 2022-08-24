@@ -1,8 +1,15 @@
 <template>
   <v-card flat class="mt-5">
-    <v-form>
+    <v-form v-model="valid" ref="form">
       <div class="px-3">
         <v-card-text class="pt-5">
+          <!--Error alert-->
+        
+
+        <v-alert v-for="(error, idx) in messages" :key="idx" :type="type">
+          <span >{{ error }} </span>
+        </v-alert>
+        <!--End Error alert-->
           <v-row>
             <v-col cols="12" sm="8" md="6">
               <!-- current password -->
@@ -15,6 +22,7 @@
                 dense
                 @click:append="isCurrentPasswordVisible = !isCurrentPasswordVisible"
                 :rules="[v => !!v || 'Champs obligatoire']"
+                required
               ></v-text-field>
 
               <!-- new password -->
@@ -27,6 +35,7 @@
                 dense
                 @click:append="isNewPasswordVisible = !isNewPasswordVisible"
                 :rules="[v => !!v || 'Champs obligatoire']"
+                required
               ></v-text-field>
 
               <!-- confirm password -->
@@ -40,6 +49,7 @@
                 class="mt-3"
                 @click:append="isCPasswordVisible = !isCPasswordVisible"
                 :rules="[v => !!v || 'Champs obligatoire']"
+                required
               ></v-text-field>
             </v-col>
             <v-col cols="12">
@@ -47,6 +57,7 @@
               color="primary"
               class="me-3"
               @click.prevent="enregistrer"
+              :disabled="!valid"
             >
               Enregistrer
             </v-btn>
@@ -69,27 +80,31 @@ export default {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
   },
   methods: {
+    validate () {
+       this.$refs.form.validate()
+      },
     enregistrer()
     {
       if(this.confirmation_mp(this.formData.mp_nouveau,this.formData.mp_nouveau_cf))
       {
         axiosClient.put("/updatePassword/"+this.user.idUser,this.formData)
         .then(resp=>{
-          console.log(resp)
-            /* if(resp.status==200)
+             if(resp.status==200)
             {
-                
-            }*/
+
+              this.messages={text:"Mot de passe modifier avec succès"}
+              this.type="success"
+            }
         }).catch(e=>{
-                this.errors = e.response.data
+                this.messages = e.response.data
+                this.type="error"
             });
       }
       else
       {
-        this.errors = {error:"Les nouveaux mots de passe ne correspondent pas"}
+        this.messages = {text:"Les nouveaux mots de passe ne correspondent pas"}
+        this.type="error"
       }
-      console.log(this.errors)
-      console.log(this.formData)
     },
     confirmation_mp(mp,cmp)
     {
@@ -99,8 +114,11 @@ export default {
   data () {
     return {
       formData:{mp_actuel:"",mp_nouveau:"",mp_nouveau_cf:""},
-      errors:{},
-      user:{}
+      messages:{},
+      user:{},
+      valid:true,
+      type:'error',
+
     }
   },
   setup() {

@@ -81,7 +81,7 @@ class UserController extends Controller
             'photo'=>['string']
         ]);
         if ($validator->fails()) {    
-            return response()->json($validator->messages(), 400);
+            return response()->json($validator->messages()->all(), 400);
         }
 
         $validated = $validator->validated();

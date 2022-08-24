@@ -4,7 +4,7 @@
     class="pa-3 mt-2"
   >
     <v-card-text>
-      <v-form class="multi-col-validation mt-6" enctype="multipart/form-data">
+      <v-form class="multi-col-validation mt-6" enctype="multipart/form-data" ref="form" v-model="valid">
 <!--photo-->
       <v-card-text class="d-flex">
         <v-avatar
@@ -41,6 +41,7 @@
               dense
               outlined
               :rules="[v => !!v || 'Champs obligatoire']"
+              required
             ></v-text-field>
           </v-col>
 
@@ -118,6 +119,7 @@
               color="primary"
               class="me-3 mt-4"
               @click.prevent="enregistrer"
+              :disabled="!valid"
             >
               Enregistrer
             </v-btn>
@@ -140,16 +142,19 @@
 import { mdiAlertOutline, mdiCloudUploadOutline,mdiCamera } from '@mdi/js'
 import { ref } from '@vue/composition-api'
 import axiosClient from '@/axios';
+import { validate } from 'json-schema';
 export default {
   methods: {
+    validate () {
+       this.$refs.form.validate()
+      },
     enregistrer(){
       axiosClient.put("/user/"+this.accountData.idUser,this.accountData)
         .then(resp=>{
-          console.log(resp)
-            /* if(resp.status==200)
+             if(resp.status==200)
             {
                 
-            }*/
+            }
         }).catch(e=>{
                 this.errors = e.response.data
             });
