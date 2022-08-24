@@ -26,10 +26,8 @@
         <!-- login form -->
         <v-card-text>
         <!--Error alert-->
-        <v-alert v-for="(errorArray, idx) in errors" :key="idx" type="error">
-          <div v-for="(allErrors, idx) in errorArray" :key="idx">
-                <span >{{ allErrors }} </span>
-          </div>  
+        <v-alert v-for="(error, idx) in errors" :key="idx" type="error">
+          <span >{{ error }} </span>
         </v-alert>
         <!--End Error alert-->
           <v-form @submit.prevent="handleLogin">
@@ -141,7 +139,7 @@ export default {
             
           }
         }).catch(error=>{
-            console.log(error.response.data)
+         
             this.errors = error.response.data;
             sessionStorage.removeItem('userToken');
         });

@@ -23,16 +23,18 @@ class AuthController extends Controller
             'photo'=>['string']
         ],[
             'email.required'=>'L\'email est obligatoire',
-            'password.required'=>'mot de passe est obligatoire',
-            'nom.required'=>'Le nom est obligatoire',
-            'prenom.required'=>'Le prenom est obligatoire',
+            'password.required'=>'Mot de passe est obligatoire',
+            'nom.required'=>'Nom est obligatoire',
+            'prenom.required'=>'Prénom est obligatoire',
             'email.email' => 'Format de l\'email est incorrect',
             'email.unique' => 'L\'email est déjà utilisé',
+            'nom.max' => 'Le nom ne doit pas dépasser 20 caractères',
+            'prenom.max' => 'Le prénom ne doit pas dépasser 20 caractères',
         ]); 
 
         //cas erreur
         if ($credentials->fails()) {
-            return response()->json([$credentials->messages()], 401);
+            return response()->json($credentials->errors()->all(), 401);
         }
         //ok
         $img_url = "resources\js\src\assets\images\users";
@@ -47,8 +49,7 @@ class AuthController extends Controller
         ]);
 
         return response()->json([
-            ['success'=> "compte bien crée"
-            ]
+            'success'=> "compte bien crée"
        ],200);
     } 
 
@@ -65,7 +66,7 @@ class AuthController extends Controller
         ]); 
         //cas erreur
         if ($credentials->fails()) {
-            return response()->json([$credentials->messages()], 401);
+            return response()->json($credentials->errors()->all(), 401);
         }
         //ok
         $validated = $credentials->validated();
@@ -82,7 +83,7 @@ class AuthController extends Controller
         }
 
         return response()->json([
-             ['messages'=> "email ou mot de passe est incorrect"]
+            'messages'=> "email ou mot de passe est incorrect"
         ],422);
       
     }

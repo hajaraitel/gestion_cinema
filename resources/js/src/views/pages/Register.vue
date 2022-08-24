@@ -24,8 +24,13 @@
           <p class="mb-2">Inscription facile et rapide!</p>
         </v-card-text>
 
-        <!-- login form -->
+        <!-- register form -->
         <v-card-text>
+          <!--Error alert-->
+        <v-alert v-for="(error, idx) in errors" :key="idx" type="error">
+          <span >{{ error }} </span>
+        </v-alert>
+        <!--End Error alert-->
           <v-form>
             <v-text-field
               v-model="user.nom"
@@ -130,10 +135,13 @@ methods: {
     axiosClient.post('/register', this.user)
     .then(resp=>{
                 if(resp.status==200)
+                {
                   this.$router.push('/')
+                  this.errors = {}
+                }  
                 })
     .catch((error) =>{
-        this.errors = error.response.data.errors;
+        this.errors = error.response.data;
     });
   },
   
