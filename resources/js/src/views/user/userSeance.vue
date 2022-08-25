@@ -32,20 +32,28 @@
     <template v-slot:item.horaire="{ item }">
         {{ item.horaire.substring(0, item.horaire.length-3) }}
     </template>
-    <!--affichage capacite-->
-    <template v-slot:item.capacite="{ item }"> 
-        {{ 
-        getAvaibility(item.idSeance)
-        
-         }}
-         {{ is_full }}
+    <!--affichage version-->
+    <template v-slot:item.version="{ item }">
+        <span class="text-uppercase">{{ item.version }}</span>  
     </template>
     <!--affichage reservation-->
     <template v-slot:item.reserver="{ item }"> 
-        <v-btn class="ma-2"
+
+      <v-btn class="ma-2"
       outlined
       color="primary" :to="{name :'user_seance_reserver', params:{idSeance:item.idSeance}}"
-      >Reserver</v-btn>
+      v-if="!item.is_full">
+      Reserver 
+      </v-btn>
+      
+      <v-chip
+      class="ma-2 disponibilite-chip"
+      v-else
+     
+      >
+      Non disponible
+    </v-chip>
+      
     </template>
 
     </v-data-table>
@@ -56,18 +64,18 @@ import axiosClient from '@/axios'
   export default {
   methods: {
     getSeances(){
-        axiosClient.get('/seances').then(resp => {this.seances=resp.data});
+        axiosClient.get('/seances').then(resp => {
+          this.seances=resp.data
+          });
     },
+    //à revoir
     getSeancesByFilm(idFilm){
         axiosClient.get('/seances/film/'+idFilm).then(resp => {this.seances=resp.data});
     },
-    getAvaibility(idSeance)
-    {
-      axiosClient.get('/availability/'+idSeance).then(resp => {this.is_full=resp.data});
-    }
 
   },
   mounted(){
+    
     //console.log("id",this.$route.params.id)
     if(typeof this.$route.params.id != 'undefined')
         this.getSeancesByFilm(this.$route.params.id);
@@ -91,7 +99,6 @@ import axiosClient from '@/axios'
           { text: 'Horaire', value: 'horaire', },
           { text: 'Prix', value: 'prix', },
           { text: 'Version', value: 'version', },
-          { text: 'Capacité', value: '', },
           { text: 'Reservation', value: 'reserver', },
          
         ],
@@ -100,5 +107,9 @@ import axiosClient from '@/axios'
     },
   }
 </script>
-<style>
+<style scoped>
+.disponibilite-chip{
+  color:white !important;
+  background-color: red !important;
+}
 </style>

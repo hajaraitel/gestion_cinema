@@ -3,6 +3,7 @@
 namespace App\Services;
 use App\Models\Seance;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SeanceService
 {
@@ -17,7 +18,14 @@ class SeanceService
             ->select('seances.*', 'salles.nom as nom_salle','salles.capacite','films.titre')
             ->get();
         
+        foreach( $list_seances as $seance)
+        {
+             
+            $seance->is_full = $this->seance_remplie($seance->idSeance);
+        }
+        
         return response()->json($list_seances);
+         
     }
 
      /**
@@ -47,7 +55,8 @@ class SeanceService
         ->where('reservations.est_annule', '=', 'false')
         ->get()->first();
 
-        return $nb_res;
+
+        return $nb_res->nb_reservation;
     }
 
     /**
@@ -61,7 +70,7 @@ class SeanceService
             ->where('seances.idSeance', '=', $idSeance)
             ->get()->first();
         
-        return $cap;
+        return $cap->capacite;
     }
 
     /**
@@ -71,9 +80,10 @@ class SeanceService
     {
         $cap = $this->cap_salle_seance($idSeance);
         $total_res = $this->total_reservations_seance($idSeance);
-
+       
         return $total_res >= $cap;
 
+    
     }
 
 

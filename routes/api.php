@@ -49,7 +49,7 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::get('/seances',[SeanceService::class,'index']);
     //
     Route::put('/userRole/{user}',[UserController::class,'updateRole']);
-    //check seance avaibility
+    //check seance availability
     Route::get('/availability/{idSeance}',[SeanceService::class,'seance_remplie']);
     
     
