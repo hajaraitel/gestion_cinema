@@ -82,8 +82,9 @@ const routes = [
   },
   
   {
-    path: '/admin/profile',
+    path: '/admin/profile/:id',
     name: 'admin_profile',
+    props:true,
     component: () => import('@/views/pages/account-settings/AccountSettings.vue'),
     meta:{requiresAuth:true,authorize : 'admin'}
   },

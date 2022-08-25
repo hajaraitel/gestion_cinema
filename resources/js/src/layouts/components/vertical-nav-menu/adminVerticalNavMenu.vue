@@ -31,7 +31,7 @@
       <nav-menu-link title="Accueil" :to="{ name: 'admin_dashboard' }" :icon="icons.mdiHomeOutline"></nav-menu-link>
       <nav-menu-link
         title="Profile"
-        :to="{ name: 'admin_profile' }"
+        :to="{ name: 'admin_profile' , params: { id: this.user.idUser }}"
         :icon="icons.mdiAccountCogOutline"
       ></nav-menu-link>
       <v-divider class="mt-5 mb-5"></v-divider>
@@ -61,6 +61,14 @@ import NavMenuGroup from './components/NavMenuGroup.vue'
 import NavMenuLink from './components/NavMenuLink.vue'
 
 export default {
+   data () {
+    return {
+      user:{}
+    }
+  },
+  mounted(){
+    this.user = JSON.parse(localStorage.getItem('currentUser'))
+  },
   components: {
     NavMenuSectionTitle,
     NavMenuGroup,

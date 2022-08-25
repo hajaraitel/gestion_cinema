@@ -5,7 +5,12 @@
   >
     <v-card-text>
       <v-form class="multi-col-validation mt-6" enctype="multipart/form-data" ref="form" v-model="valid">
-<!--photo-->
+      <!--message alert-->
+        <v-alert v-for="(msg, idx) in messages" :key="idx" :type="type">
+          <span >{{ msg }} </span>
+        </v-alert>
+      <!--End message alert-->
+      <!--photo-->
       <v-card-text class="d-flex">
         <v-avatar
           rounded
@@ -153,10 +158,12 @@ export default {
         .then(resp=>{
              if(resp.status==200)
             {
-                
+                this.messages={text:"Profile modifié avec succès"}
+                this.type="success"
             }
         }).catch(e=>{
-                this.errors = e.response.data
+                this.messages = e.response.data
+                this.type="error"
             });
     },
     onChange(files){
@@ -193,6 +200,8 @@ export default {
       // to save image url
       imageUrl: "",
       valid: true,
+      messages:{},
+      type:'error'
     }
   },
  /* beforeUpdate () {

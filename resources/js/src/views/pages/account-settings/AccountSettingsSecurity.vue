@@ -92,7 +92,7 @@ export default {
              if(resp.status==200)
             {
 
-              this.messages={text:"Mot de passe modifier avec succès"}
+              this.messages={text:"Mot de passe modifié avec succès"}
               this.type="success"
             }
         }).catch(e=>{

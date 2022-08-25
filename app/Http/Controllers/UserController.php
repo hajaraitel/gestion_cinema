@@ -76,9 +76,7 @@ class UserController extends Controller
             'nom' => ['required', 'max:20', 'string'],
             'prenom' => ['required','string'],
             'email' => ['required','string','email'],
-            'telephone' => ['string'],
-            'sexe' => ['string'],
-            'photo'=>['string']
+            'sexe' => ['string']
         ]);
         if ($validator->fails()) {    
             return response()->json($validator->messages()->all(), 400);
@@ -91,11 +89,11 @@ class UserController extends Controller
         
         if($user)
         {
-            if($user->photo != $validated['photo']){
+            if($user->photo != $request->photo){
                 $img_url = '/images/users/';
                 $upload_path = public_path('images/users');
                 //$generated_new_name = $user->idUser . '_' . $validated['photo'];
-                $img = $img_url.$validated['photo'];
+                $img = $img_url.$request->photo;
             }else
                 $img = $user->photo;
 
@@ -103,7 +101,7 @@ class UserController extends Controller
             $user->prenom = $validated['prenom'];
             $user->email = $validated['email'];
             $user->sexe = $validated['sexe'];
-            $user->telephone = $validated['telephone'];
+            $user->telephone = $request->telephone;
             $user->photo = $img;
             $user->save();  
             return response()->json($user);
