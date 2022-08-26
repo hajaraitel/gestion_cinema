@@ -1,7 +1,49 @@
 <template>
 <v-app>
   <v-row>
-  <film-card v-for="film in filmList" :filmData="film" :key="film.idFilm"></film-card>
+  <v-form v-model="valid">
+    <v-container>
+      <v-row>
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <v-text-field
+            v-model="titre"
+            label="Titre"
+            required
+          ></v-text-field>
+        </v-col>
+
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <v-text-field
+            v-model="genre"
+            label="Genre"
+            required
+          ></v-text-field>
+        </v-col>
+
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <v-text-field
+            v-model="langue"
+            label="Langue"
+            required
+          ></v-text-field>
+        </v-col>
+        
+
+      </v-row>
+    </v-container>
+  </v-form>
+  </v-row>
+  <v-row>
+  <film-card v-for="film in filterFilms" :filmData="film" :key="film.idFilm"></film-card>
   </v-row>
 
 </v-app>
@@ -9,8 +51,8 @@
 <script>
 import { ref } from '@vue/composition-api'
 import filmCard from '../cards/filmCard.vue'
-import {} from '@mdi/js'
 import axiosClient from '@/axios'
+import { mdiMagnify } from '@mdi/js';
 
 export default {
   components:{
@@ -19,11 +61,39 @@ export default {
   /*** */
   data(){
       return {
-        filmList:{}
+        filmList:{},
+        valid:true,
+        genre:'',
+        langue:'',
+        titre:'',
       }
+  },
+  computed:{
+    filterFilms(){
+      if(this.genre=="" && this.langue=="" && this.titre=="")
+        return this.filmList;
+      else{
+        return this.filmList.filter((film)=>{
+          return film.titre.match(this.titre) && film.langue.match(this.langue) && film.genre.match(this.genre)
+         
+        });
+        
+      }
+    }
   },
   
   methods:{
+    filtrer(){
+       if(this.genre=="" && this.langue=="" && this.titre=="")
+        return this.filmList;
+      else if (this.titre!=""){
+        console.log(this.filmList)
+        return this.filmList.filter((film)=>{
+          film.titre == this.titre
+        });
+        
+      }
+    },
     getFilmList(){
       axiosClient.get("/films")
         .then(resp=>{
@@ -40,7 +110,12 @@ export default {
   },
   /*** */
   setup() {
-    
+    return {
+    // icons
+      icons: {
+        mdiMagnify
+      }
+      }
   },
 }
 </script>
