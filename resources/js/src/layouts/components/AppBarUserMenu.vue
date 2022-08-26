@@ -72,9 +72,15 @@ export default {
       this.$router.push('/');
     }
   },
+  watch:{
+
+  },
   mounted(){
+    window.addEventListener('updateUser', (event) => {
+    this.user = JSON.parse(event.detail.storage);
+  });
+
     this.user = JSON.parse(localStorage.getItem('currentUser'));
-    console.log(this.user)
   },
   setup() {
     return {

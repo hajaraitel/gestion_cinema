@@ -17,13 +17,12 @@
           size="120"
           class="me-6"
         >
-        <v-img v-bind:src="accountData.photo"></v-img>
+        <v-img v-bind:src="imageUrl"></v-img>
         </v-avatar>
 
         <!-- upload photo -->
         <div>
           <v-file-input
-          ref="fileEvent"
           name="photo"
           @change="onChange"
           accept="image/png, image/jpeg, image/jpg"
@@ -160,35 +159,34 @@ export default {
             {
                 this.messages={text:"Profile modifié avec succès"}
                 this.type="success"
+                localStorage.setItem('currentUser',JSON.stringify(resp.data.user))
+                window.dispatchEvent(new CustomEvent('updateUser',{
+                  detail:{
+                    storage:localStorage.getItem('currentUser')
+                  }
+                }))
+
             }
         }).catch(e=>{
                 this.messages = e.response.data
                 this.type="error"
             });
+            
     },
-    onChange(files){
-      this.accountData.photo = files.name
+    onChange(file){
+      if(file!=null)
+      {
+        this.accountData.photo = file.name
+        this.imageUrl = URL.createObjectURL(file)
+      }  
+      else
+      { 
+        this.accountData.photo = null
+        this.imageUrl=''
+      } 
+      
     }
-    //create image for preview
-   /* createImage(file) 
-    {
-      const reader = new FileReader();
-
-      reader.onload = e => {
-        this.imageUrl = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    },
-    onFileChange(file) {
-    if (!file) {
-      return;
-      //this.imageUrl = this.accountData.photo
-    }
-    this.createImage(file);
-  },
-    Preview_image(files){
-      this.accountData.photo = files.name
-    }*/
+    
   },  
   
   props: {
@@ -196,23 +194,22 @@ export default {
   },
   data () {
     return {
-      image: undefined,
-      // to save image url
-      imageUrl: "",
       valid: true,
       messages:{},
-      type:'error'
+      type:'error',
+      imageUrl:this.accountData.photo
     }
   },
- /* beforeUpdate () {
-    
-    this.imageUrl=this.accountData.photo
-  },*/
+watch:{
+  accountData : function(newVal){
+    this.imageUrl = newVal.photo
+  }
+},
   computed:{
     getRole(){
      return this.accountData.is_admin  ? 'admin' : 'user'
     },
-  },
+   },
   setup() {
     return {
       icons: {
@@ -221,5 +218,6 @@ export default {
       },
     }
   },
+
 }
 </script>

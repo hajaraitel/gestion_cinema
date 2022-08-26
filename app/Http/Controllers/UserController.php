@@ -104,7 +104,7 @@ class UserController extends Controller
             $user->telephone = $request->telephone;
             $user->photo = $img;
             $user->save();  
-            return response()->json($user);
+            return response()->json(['user'=>$user],200);
              
         }
 
