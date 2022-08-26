@@ -40,6 +40,12 @@ class SeanceService
             ->where('films.idFilm', '=', $idMovie)
             ->get();
         
+        foreach( $list_seances as $seance)
+        {
+             
+            $seance->is_full = $this->seance_remplie($seance->idSeance);
+        }
+
         return response()->json($list_seances);
     }
 

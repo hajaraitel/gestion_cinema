@@ -38,7 +38,6 @@
     </template>
     <!--affichage reservation-->
     <template v-slot:item.reserver="{ item }"> 
-
       <v-btn class="ma-2"
       outlined
       color="primary" :to="{name :'user_seance_reserver', params:{idSeance:item.idSeance}}"

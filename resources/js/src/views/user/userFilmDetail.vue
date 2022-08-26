@@ -25,7 +25,7 @@
               </v-card-text>
               <v-card-actions class="dense">
                 <v-btn text color="primary" dark :to="{ name: 'user_dashboard'}"> Retour </v-btn>
-                <v-btn dark text color="primary" :to="{ name: 'user_seances', params:{idFilm : this.filmData.idFilm}}"> Voir seances </v-btn>
+                <v-btn dark text color="primary" :to="{ name: 'user_seances', params:{id : this.filmData.idFilm}}"> Voir seances </v-btn>
               </v-card-actions>
             </div>
             <v-spacer></v-spacer>
