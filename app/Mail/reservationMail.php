@@ -28,8 +28,8 @@ class reservationMail extends Mailable
      */
     public function build()
     {
-        return $this->from('hajaraitel@gmail.com')
-                    ->subject('testing mail')
+        return $this->from('reservation@gomovies.com')
+                    ->subject('Confirmation de votre réservation')
                     ->view('emails.reservationEmail');
     }
 }

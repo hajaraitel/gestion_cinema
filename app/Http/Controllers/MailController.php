@@ -11,7 +11,7 @@ class MailController extends Controller
 {
     public function sendMail()
     {
-        Mail::to('testuser@test.com')->send(new reservationMail());
+        Mail::to('hajaraitel@gmail.com')->send(new reservationMail());
 
     }
 }
