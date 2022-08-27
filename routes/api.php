@@ -52,8 +52,6 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::put('/userRole/{user}',[UserController::class,'updateRole']);
     //check seance avaibility
     Route::get('/availability/{idSeance}',[SeanceService::class,'seance_remplie']);
-    //send mail
-Route::get('/sendMail',[MailController::class,'sendMail']);
     
 }
 );

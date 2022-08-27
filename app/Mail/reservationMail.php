@@ -10,15 +10,16 @@ use Illuminate\Queue\SerializesModels;
 class reservationMail extends Mailable
 {
     use Queueable, SerializesModels;
+    public $reserDetail;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($data)
     {
-        //
+        $this->reserDetail = $data;
     }
 
     /**
@@ -28,8 +29,9 @@ class reservationMail extends Mailable
      */
     public function build()
     {
-        return $this->from('reservation@gomovies.com')
+        return $this->from('goomoovies@gmail.com')
                     ->subject('Confirmation de votre réservation')
+                    ->with(['reserDetail'=>$this->reserDetail])
                     ->view('emails.reservationEmail');
     }
 }

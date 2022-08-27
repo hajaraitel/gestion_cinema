@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reservation;
+use App\Services\ReservationService;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use App\Mail\reservationMail;
+use Mail;
 
 class ReservationController extends Controller
 {
@@ -69,6 +72,10 @@ class ReservationController extends Controller
         $res->date_reservation = $date;
         
         $res->save();
+
+        $resDetail = ReservationService::getReservationDetail($res->idReservation);        
+        Mail::to($resDetail->email)->send(new reservationMail($resDetail));
+        
         return response()->json([
             ['success'=> "la séance à été réserver"]
        ],200);

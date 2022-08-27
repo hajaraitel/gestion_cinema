@@ -112,8 +112,8 @@
                                     <tr>
                                         <!--logo here-->
                                         <td height="60" valign="top" class="header-cell">
-                                            <img width="196" height="60"
-                                                src="{{ URL::asset('/images/logos/logo.svg') }}" alt="MovieGo">
+                                
+                                                <img src="https://i.ibb.co/3fygR8R/logo.png" alt="MovieGo" border="0" width="38" height="41">
                                         </td>
                                     </tr>
                                     <tr
@@ -123,7 +123,7 @@
                                             valign="top">
                                             <h1 class=""
                                                 style="font-family: 'Helvetica Neue',Helvetica,Arial,'Lucida Grande',sans-serif; box-sizing: border-box; font-size: 32px; color: #000; line-height: 1.2em; font-weight: 500; margin: 40px 0 0 10px;text-align:left">
-                                                Bonjour nom</h1>
+                                                Bonjour {{ $reserDetail->nom }},</h1>
                                         </td>
                                     </tr>
                                     <tr
@@ -133,8 +133,7 @@
                                             valign="top">
                                             <h5 class=""
                                                 style="font-family: 'Helvetica Neue',Helvetica,Arial,'Lucida Grande',sans-serif; box-sizing: border-box; font-size: 24px; color: #000; line-height: 1.2em; font-weight: 400; text-align: left; margin: 40px 0 0 15px;"
-                                                align="">Voici toutes les informations concernant votre
-                                                réservation :</h5>
+                                                align="">Votre réservation a été bien prise en compte.<br>Vous trouverez ci-dessous les informations concernant votre séance.</h5>
                                         </td>
                                     </tr>
                                     <tr
@@ -159,12 +158,12 @@
                                                     style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                                     <td style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 5px 0;"
                                                         valign="top">
-                                                        Nom prenom
+                                                        {{ $reserDetail->prenom.' '.$reserDetail->nom }}
                                                         <br style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" />
                                                         Réservation
-                                                        #id
+                                                        #{{ $reserDetail->idReservation }}
                                                         <br style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" />
-                                                        date reservation : 01/02/2020</td>
+                                                        date reservation : {{ $reserDetail->date_reservation }}</td>
                                                 </tr>
                                                 <tr
                                                     style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
@@ -178,7 +177,7 @@
                                                                     valign="top">Titre film</td>
                                                                 <td class="alignright"
                                                                     style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: right; border-top-width: 1px; border-top-color: #eee; border-top-style: solid; margin: 0; padding: 5px 0;"
-                                                                    align="right" valign="top">titre</td>
+                                                                    align="right" valign="top">{{ $reserDetail->titre }}</td>
                                                             </tr>
                                                             <tr
                                                                 style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
@@ -186,7 +185,7 @@
                                                                     valign="top">Salle</td>
                                                                 <td class="alignright"
                                                                     style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: right; border-top-width: 1px; border-top-color: #eee; border-top-style: solid; margin: 0; padding: 5px 0;"
-                                                                    align="right" valign="top">salle 3</td>
+                                                                    align="right" valign="top">{{ $reserDetail->nom_salle }}</td>
                                                             </tr>
                                                             <tr
                                                                 style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
@@ -194,7 +193,7 @@
                                                                     valign="top">Date seance</td>
                                                                 <td class="alignright"
                                                                     style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: right; border-top-width: 1px; border-top-color: #eee; border-top-style: solid; margin: 0; padding: 5px 0;"
-                                                                    align="right" valign="top">20/07/2020</td>
+                                                                    align="right" valign="top">{{ $reserDetail->date_seance}}</td>
                                                             </tr>
                                                             <tr
                                                                 style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
@@ -202,7 +201,7 @@
                                                                     valign="top">Horaire</td>
                                                                 <td class="alignright"
                                                                     style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: right; border-top-width: 1px; border-top-color: #eee; border-top-style: solid; margin: 0; padding: 5px 0;"
-                                                                    align="right" valign="top">18:00</td>
+                                                                    align="right" valign="top">{{ $reserDetail->horaire }}</td>
                                                             </tr>
                                                             <tr
                                                                 style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
@@ -210,7 +209,7 @@
                                                                     valign="top">Nb adultes</td>
                                                                 <td class="alignright"
                                                                     style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: right; border-top-width: 1px; border-top-color: #eee; border-top-style: solid; margin: 0; padding: 5px 0;"
-                                                                    align="right" valign="top">1</td>
+                                                                    align="right" valign="top">{{ $reserDetail->nb_adult }}</td>
                                                             </tr>
                                                             <tr
                                                                 style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
@@ -218,7 +217,7 @@
                                                                     valign="top">Nb enfants</td>
                                                                 <td class="alignright"
                                                                     style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: right; border-top-width: 1px; border-top-color: #eee; border-top-style: solid; margin: 0; padding: 5px 0;"
-                                                                    align="right" valign="top">2</td>
+                                                                    align="right" valign="top">{{ $reserDetail->nb_enfant }}</td>
                                                             </tr>
                                                             <tr class="total"
                                                                 style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
@@ -227,7 +226,7 @@
                                                                     align="right" valign="top">Total</td>
                                                                 <td class="alignright"
                                                                     style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: right; border-top-width: 2px; border-top-color: #333; border-top-style: solid; border-bottom-color: #333; border-bottom-width: 2px; border-bottom-style: solid; font-weight: 700; margin: 0; padding: 5px 0;"
-                                                                    align="right" valign="top">33.98 DH</td>
+                                                                    align="right" valign="top">{{ $reserDetail->prix_total }} DH</td>
                                                             </tr>
                                                         </table>
                                                     </td>
@@ -237,12 +236,11 @@
                                     </tr>
                                     <tr
                                         style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
-                                        <td class="content-block aligncenter"
-                                            style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: center; margin: 0; padding: 0 0 20px;"
-                                            align="center" valign="top">
-                                            <a href="http://www.mailgun.com"
-                                                style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; color: #348eda; text-decoration: underline; margin: 0;">View
-                                                in browser</a>
+                                        <td class="content-block"
+                                            style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: 
+                                            border-box; font-size: 14px; vertical-align: top; text-align: left; margin: 0 0 0 15px; padding: 0 0 20px;"
+                                            valign="top">
+                                            On vous remercie et on souhaite vous voir bientôt
                                         </td>
                                     </tr>
                                     <tr
@@ -250,7 +248,7 @@
                                         <td class="content-block aligncenter"
                                             style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: center; margin: 0; padding: 0 0 20px;"
                                             align="center" valign="top">
-                                            Acme Inc. 123 Van Ness, San Francisco 94102
+                                            GoMovies Inc.
                                         </td>
                                     </tr>
                                 </table>
@@ -266,7 +264,7 @@
                                 <td class="aligncenter content-block"
                                     style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 12px; vertical-align: top; color: #999; text-align: center; margin: 0; padding: 0 0 20px;"
                                     align="center" valign="top">Questions? Email <a href="mailto:"
-                                        style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 12px; color: #999; text-decoration: underline; margin: 0;">support@acme.inc</a>
+                                        style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 12px; color: #999; text-decoration: underline; margin: 0;">support@gomovies.com</a>
                                 </td>
                             </tr>
                         </table>
