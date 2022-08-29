@@ -54,10 +54,9 @@ class SeanceService
      */
     public function total_reservations_seance($idSeance)
     {
-        $nb_res = DB::table('seances')
-        ->Join('reservations','reservations.idSeance', '=', 'seances.idSeance')
-        ->selectRaw('count(reservations.idReservation) as nb_reservation')
-        ->where('seances.idSeance', '=', $idSeance)
+        $nb_res = DB::table('reservations')
+        ->selectRaw('sum(COALESCE(nb_adult,0)+COALESCE(nb_enfant,0)) as nb_reservation')
+        ->where('reservations.idSeance', '=', $idSeance)
         ->where('reservations.est_annule', '=', 'false')
         ->get()->first();
 

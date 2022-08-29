@@ -53,6 +53,7 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::get('/availability/{idSeance}',[SeanceService::class,'seance_remplie']);
     
     
+    
 }
 );
 
