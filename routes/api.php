@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentaireController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\SeanceController;
+use App\Http\Controllers\MailController;
 use App\Services\FilmService;
 use App\Services\ReservationService;
 use App\Services\SeanceService;
