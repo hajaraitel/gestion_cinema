@@ -3,29 +3,42 @@
 <v-row class="mb-0">
     <v-col cols="12">
         <v-card elevation="2" shaped>
-            <v-card-title> <b>{{ seanceInfo.titre }}</b> </v-card-title>
-            <div class="">
-                <v-card-text class="text--primary text-base">
-                <span class="text--primary text-base "> {{ seanceInfo.nom_salle }} </span>
-                <v-spacer></v-spacer>
-                <span>Prix : {{ seanceInfo.prix }}  DH</span>
-                </v-card-text>
-            </div>
+            <v-card-title> <b class="text-uppercase title">{{ seanceInfo.titre }}</b> </v-card-title>
+            <table class="ml-5 mb-5">
+                <tr>
+                    <td class="header">Salle : </td>
+                    <td class="seance-value">{{ seanceInfo.nom_salle }}</td>
+                </tr>
+                <tr>
+                    <td  class="header">Prix : </td>
+                    <td class="seance-value">{{ seanceInfo.prix }}  DH</td>
+                </tr>
+                <tr>
+                    <td  class="header">Date seance : </td>
+                    <td class="seance-value">{{ seanceInfo.date_seance }}</td>
+                </tr>
+                <tr>
+                    <td  class="header">Heure seance : </td>
+                    <td class="seance-value">{{ seanceInfo.horaire }}</td>
+                </tr>
 
-            <v-card-text class="text--primary text-base">
-                <span>date : {{ seanceInfo.date_seance }} </span>
-                <v-spacer></v-spacer>
-                <span>heure : {{ seanceInfo.horaire }} </span>
-            </v-card-text>
+            </table>
         </v-card>
     </v-col>
 </v-row>
 <v-row class="mt-0">
     <v-col>
         <v-card>
-            <v-card-title><b>Réserver</b></v-card-title>
-            <v-card-text>
-<v-form>
+            <v-card-title ><b class="title">RESERVER</b></v-card-title>
+            <!--message alert-->
+        <v-alert v-for="(msg, idx) in messages" :key="idx" :type="type">
+          <span >{{ msg }} </span>
+        </v-alert>
+      <!--End message alert-->
+        <v-card-text>
+    <v-form ref="form"
+        v-model="valid"
+    >
     <v-row>
         <!---->
             <v-col
@@ -45,11 +58,8 @@
                 v-model="formData.nb_adult"
                 outlined
                 dense
-                hide-details
                 required
                 :rules="number_validation"
-                @focusout="handleFocusout"
-                value="0"
                 ></v-text-field>
             </v-col>
 <!---->
@@ -70,7 +80,6 @@
                 v-model="formData.nb_enfant"
                 outlined
                 dense
-                hide-details
                 :rules="number_validation"
                 required
                 ></v-text-field>
@@ -111,11 +120,10 @@
                 <v-text-field
                 id="carte"
                 type="number"
+                :rules="numberRule"
+                required
                 outlined
                 dense
-                hide-details
-                :rules="[v => !!v || 'Champs obligatoire']"
-                required
                 ></v-text-field>
             </v-col>
             <!---->
@@ -134,10 +142,8 @@
                 type="number"
                 outlined
                 dense
-                hide-details
-                :rules="[v => !!v || 'Champs obligatoire']"
+                :rules="cvcRules"
                 required 
-                maxlength="3"
                 ></v-text-field>
             </v-col>
             <!---->
@@ -159,39 +165,21 @@
             required
             ></v-select>
             </v-col>
+            
+            <!--Annee-->
             <v-col
                 cols="6"
                 md="4"
             >
-            <!--annee-->
-            
-        <v-menu
-        ref="menu"
-        v-model="menu"
-        :close-on-content-click="false"
-        transition="scale-transition"
-        offset-y
-        min-width="auto"
-        >
-        <template v-slot:activator="{ on, attrs }">
-            <v-text-field
-            v-model="date"
-            label="Année"
-            :rules="[v => !!v || 'Champs obligatoire']"
-            required
-            readonly
-            v-bind="attrs"
-            v-on="on"
-            ></v-text-field>
-        </template>
-        <v-date-picker
-            v-model="date"
-            :active-picker.sync="activePicker"
-            :min="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
-        ></v-date-picker>
-        </v-menu>
-
+                <v-text-field
+                id="annee"
+                type="number"
+                label="Annee"
+                :rules="anneeRules"
+                required 
+                ></v-text-field>
             </v-col>
+            <!---->
             <!---->
             <v-col
                 offset-md="3"
@@ -199,12 +187,8 @@
             >
             <v-btn
             color="success"
-            dark
             @click.prevent="payer"
-            :disabled="!valid"
-            >
-                Payer
-            </v-btn>
+            :disabled="!valid">Payer</v-btn>
             </v-col>
 
             </v-row>
@@ -221,62 +205,60 @@ import axiosClient from '@/axios';
 
 export default {
   methods: {
+    validate () {
+       this.$refs.form.validate()
+      },
     payer(){
-        
-       /* this.formData.idSeance = this.$route.params.idSeance;
+       this.formData.idSeance = this.$route.params.idSeance;
         this.formData.idUser = this.user.idUser;
         this.formData.prix_total = total.value
         axiosClient.post('/reservation',this.formData)
                     .then(resp=>{
                         if(resp.status == 200)
-                        this.$router.push('/user/reservations/'+this.user.idUser);
+                        { 
+                            this.$router.push('/user/reservations/'+this.user.idUser);
+                        }
                     }).catch(e=>{
-                        this.errors = e.response.data
-                    });*/
+                        this.messages = e.response.data
+                        this.type="error"
+                    });
     },
     getSeanceInfo(idSeance)
     {
         axiosClient.get('/seance/'+idSeance).then(resp => {this.seanceInfo=resp.data})
         .catch(err=>{ console.log(err) })
     },
-    handleFocusout(e) {
-      //this.total = calculerTotal()
-    }
   },
   data () {
     return {
-        errors:{},
+        messages:{},
         valid: true,
-        activePicker: null,
-        date: null,
-        menu: false,
+        type:'error',
         user:{},
         months: ['1','2','3','4','5','6','7','8','9','10','11','12'],
-        formData:{idSeance:"",idUser:"",nb_adult:"",nb_enfant:"",prix_total:""},
+        formData:{idSeance:"",idUser:"",nb_adult:"0",nb_enfant:"0",prix_total:""},
         seanceInfo:{},
-        numberRule: v  => {
-            if (!v.trim()) return true;
-            if (!isNaN(parseFloat(v)) && v >= 0 && v <= 999) return true;
-            return 'Number has to be between 0 and 999';
-        },
-        nbAdult: [
+        numberRule: [
         v => !!v || 'Champs obligatoire',
-        v => (v && v < 1) || 'nb adult doit etre ',
-        v => ( v && v >= 50 ) || 'le maximum est 50',
-        v => ( v && v < 1 ) || 'le mi',
+        v => (v && v.length == 16) || 'numero doit etre composé de 16 nombre',
+      ],
+      cvcRules :[
+        v => !!v || 'Champs obligatoire',
+        v => (v && v.length == 3) || 'numero doit etre composé de 3 nombre',
+      ],
+      anneeRules :[
+        v => !!v || 'Champs obligatoire',
+        v => (v && v.length == 4) || 'l annee doit etre composé de 4 nombre',
+        v => (v && v >= ((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)))
+                || "la valeur mninimale est l annee suivante"
       ],
     }
   },
     mounted(){
         this.user = JSON.parse(localStorage.getItem('currentUser'));
         this.getSeanceInfo(this.$route.params.idSeance)
-        //console.log(this.seanceInfo)
     },
-    watch: {
-      menu (val) {
-        val && setTimeout(() => (this.activePicker = 'YEAR'))
-      },
-    },
+    
     computed: {
         total: function() {
             let sum = 0;
@@ -289,14 +271,30 @@ export default {
     },
     number_validation(){
         const rules=[]
-        if(this.formData.nb_adult=='' && this.formData.nb_enfant=='')
+        if((this.formData.nb_adult=='' && this.formData.nb_enfant=='') || 
+            (this.formData.nb_adult=='0' && this.formData.nb_enfant=='0'))
         {
-            const rule = v => !!v || 'le nombre de personne est obligatoire'
+
+            const rule = v => 'le nombre de personne est obligatoire'
             rules.push(rule);
-            console.log(rule)
         }
         return rules
     }
   }
 }
 </script>
+<style scoped>
+.title{
+    color:slateblue !important;
+}
+td{
+    padding:5px;
+
+}
+.header{
+    color : cornflowerblue !important;
+}
+.seance-value{
+    color: slategray !important;
+}
+</style>
