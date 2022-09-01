@@ -59,8 +59,6 @@ class ReservationController extends Controller
         }
         //ok
         $validated = $credentials->validated();
-        //$date = Carbon::now();// will get you the current date, time 
-        //dd($date->format("YYYY-MM-D")); //this will dump the date time in the desired format
         $date =Carbon::now()->toDateString();
         $res = new Reservation();
         
