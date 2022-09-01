@@ -47,9 +47,9 @@
                 dense
                 hide-details
                 required
-                :rules="[v => !!v || 'Champs obligatoire']"
-                
+                :rules="number_validation"
                 @focusout="handleFocusout"
+                value="0"
                 ></v-text-field>
             </v-col>
 <!---->
@@ -71,7 +71,7 @@
                 outlined
                 dense
                 hide-details
-                :rules="[v => !!v || 'Champs obligatoire']"
+                :rules="number_validation"
                 required
                 ></v-text-field>
             </v-col>
@@ -223,7 +223,7 @@ export default {
   methods: {
     payer(){
         
-        this.formData.idSeance = this.$route.params.idSeance;
+       /* this.formData.idSeance = this.$route.params.idSeance;
         this.formData.idUser = this.user.idUser;
         this.formData.prix_total = total.value
         axiosClient.post('/reservation',this.formData)
@@ -232,7 +232,7 @@ export default {
                         this.$router.push('/user/reservations/'+this.user.idUser);
                     }).catch(e=>{
                         this.errors = e.response.data
-                    });
+                    });*/
     },
     getSeanceInfo(idSeance)
     {
@@ -259,12 +259,18 @@ export default {
             if (!isNaN(parseFloat(v)) && v >= 0 && v <= 999) return true;
             return 'Number has to be between 0 and 999';
         },
+        nbAdult: [
+        v => !!v || 'Champs obligatoire',
+        v => (v && v < 1) || 'nb adult doit etre ',
+        v => ( v && v >= 50 ) || 'le maximum est 50',
+        v => ( v && v < 1 ) || 'le mi',
+      ],
     }
   },
     mounted(){
         this.user = JSON.parse(localStorage.getItem('currentUser'));
         this.getSeanceInfo(this.$route.params.idSeance)
-        console.log(this.seanceInfo)
+        //console.log(this.seanceInfo)
     },
     watch: {
       menu (val) {
@@ -280,6 +286,16 @@ export default {
                 sum+=parseInt(this.formData.nb_enfant) * (this.seanceInfo.prix/2);
             
         return sum
+    },
+    number_validation(){
+        const rules=[]
+        if(this.formData.nb_adult=='' && this.formData.nb_enfant=='')
+        {
+            const rule = v => !!v || 'le nombre de personne est obligatoire'
+            rules.push(rule);
+            console.log(rule)
+        }
+        return rules
     }
   }
 }
