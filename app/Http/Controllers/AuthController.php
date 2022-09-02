@@ -16,23 +16,28 @@ class AuthController extends Controller
 
         $credentials = Validator::make($request->all(),[
             'email' => ['required', 'email','unique:users'],
-            'password' => ['required'],
-            'nom' => ['required', 'string','max:20'],
-            'prenom' => ['required', 'string','max:20'],
+            'password' => ['required','min:5'],
+            'nom' => ['required', 'regex:/^[a-zA-Z\s]*$/','max:20'],
+            'prenom' => ['required', 'regex:/^[a-zA-Z\s]*$/','max:20'],
             'sexe' => ['string'],
             'photo'=>['string']
         ],[
             'email.required'=>'L\'email est obligatoire',
-            'password.required'=>'mot de passe est obligatoire',
-            'nom.required'=>'Le nom est obligatoire',
-            'prenom.required'=>'Le prenom est obligatoire',
+            'password.required'=>'Mot de passe est obligatoire',
+            'password.min'=>'Mot de passe doit être au moins 5 caractères',
+            'nom.required'=>'Nom est obligatoire',
+            'nom.max' => 'Le nom ne doit pas dépasser 20 caractères',
+            'nom.regex' => 'Le nom ne doit pas contenir des nombres',
+            'prenom.required'=>'Prénom est obligatoire',
+            'prenom.max' => 'Le prénom ne doit pas dépasser 20 caractères',
+            'prenom.regex' => 'Le prénom ne doit pas contenir des nombres',
             'email.email' => 'Format de l\'email est incorrect',
             'email.unique' => 'L\'email est déjà utilisé',
         ]); 
 
         //cas erreur
         if ($credentials->fails()) {
-            return response()->json([$credentials->messages()], 401);
+            return response()->json($credentials->errors()->all(), 401);
         }
         //ok
         $img_url = "/images/users";
@@ -47,7 +52,7 @@ class AuthController extends Controller
         ]);
 
         return response()->json([
-            ['success'=> "compte bien crée"]
+            'success'=> "compte bien crée"
        ],200);
     } 
 
@@ -64,7 +69,7 @@ class AuthController extends Controller
         ]); 
         //cas erreur
         if ($credentials->fails()) {
-            return response()->json([$credentials->messages()], 401);
+            return response()->json($credentials->errors()->all(), 401);
         }
         //ok
         $validated = $credentials->validated();
@@ -81,7 +86,7 @@ class AuthController extends Controller
         }
 
         return response()->json([
-             ['messages'=> "email ou mot de passe est incorrect"]
+            'messages'=> "email ou mot de passe est incorrect"
         ],422);
       
     }

@@ -4,9 +4,7 @@
       <div class="px-3">
         <v-card-text class="pt-5">
           <!--Error alert-->
-        
-
-        <v-alert v-for="(error, idx) in messages" :key="idx" :type="type">
+        <v-alert v-for="(error, idx) in messages" :key="idx" :type="type" class="mb-5">
           <span >{{ error }} </span>
         </v-alert>
         <!--End Error alert-->

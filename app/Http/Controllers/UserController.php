@@ -73,26 +73,31 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $validator  = Validator::make($request->all(), [
-            'nom' => ['required', 'max:20', 'string'],
-            'prenom' => ['required','string'],
+            'nom' => ['required', 'max:20', 'regex:/^[a-zA-Z\s]*$/'],
+            'prenom' => ['required','max:20','regex:/^[a-zA-Z\s]*$/'],
             'email' => ['required','string','email'],
             'sexe' => ['string']
-        ]);
+        ],[
+            'nom.required'=>'Nom est obligatoire',
+            'nom.max' => 'Le nom ne doit pas dépasser 20 caractères',
+            'nom.regex' => 'Le nom ne doit pas contenir des nombres',
+            'prenom.required'=>'Prénom est obligatoire',
+            'prenom.max' => 'Le prénom ne doit pas dépasser 20 caractères',
+            'prenom.regex' => 'Le prénom ne doit pas contenir des nombres',
+        ]); 
         if ($validator->fails()) {    
-            return response()->json($validator->messages()->all(), 400);
+            return response()->json($validator->errors()->all(), 400);
         }
 
         $validated = $validator->validated();
 
         $user = User::find($id);
-
         
         if($user)
         {
             if($user->photo != $request->photo){
                 $img_url = '/images/users/';
                 $upload_path = public_path('images/users');
-                //$generated_new_name = $user->idUser . '_' . $validated['photo'];
                 $img = $img_url.$request->photo;
             }else
                 $img = $user->photo;
@@ -108,7 +113,7 @@ class UserController extends Controller
              
         }
 
-        return response()->json(["error"=>"erreur lors de l'enregistrement"], 400); 
+        return response()->json(["messages"=>"erreur lors de l'enregistrement"], 400); 
     }
 
     /**
@@ -127,13 +132,27 @@ class UserController extends Controller
      */
     public function update_password(Request $request, $id)
     {
+        $credentials = Validator::make($request->all(),[
+            'mp_nouveau' => ['required', 'min:5'],
+        ],[
+            'mp_nouveau.required'=>'Mot de passe est obligatoire',
+            'mp_nouveau.min'=>'Mot de passe doit être au moins 5 caractères',        
+        ]); 
+        //cas erreur
+        if ($credentials->fails()) {
+            return response()->json($credentials->errors()->all(), 401);
+        }
+        //ok
+        $validated = $credentials->validated();
+ 
+
         $user = User::find($id);
         $actual_pd = $request->mp_actuel;
         if($user)
         {   
             //check if current password is ok
             if (Hash::check($actual_pd, $user->password)) {
-                $user->password = Hash::make($request->mp_nouveau);
+                $user->password = Hash::make($validated['mp_nouveau']);
                 $user->save();
                 return response()->json([
                     ['success'=> "mot de passe modifié"]

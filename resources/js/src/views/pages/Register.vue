@@ -24,14 +24,18 @@
           <p class="mb-2">Inscription facile et rapide!</p>
         </v-card-text>
 
-        <!-- login form -->
+        <!-- register form -->
         <v-card-text>
+          <!--Error alert-->
+        <v-alert v-for="(error, idx) in errors" :key="idx" type="error">
+          <span >{{ error }} </span>
+        </v-alert>
+        <!--End Error alert-->
           <v-form>
             <v-text-field
               v-model="user.nom"
               outlined
               label="nom"
-              placeholder="Doe"
               hide-details
               class="mb-3"
             ></v-text-field>
@@ -39,7 +43,6 @@
               v-model="user.prenom"
               outlined
               label="prenom"
-              placeholder="John"
               hide-details
               class="mb-3"
             ></v-text-field>
@@ -48,7 +51,6 @@
               v-model="user.email"
               outlined
               label="Email"
-              placeholder="john@example.com"
               hide-details
               class="mb-3"
             ></v-text-field>
@@ -59,7 +61,6 @@
               outlined
               :type="isPasswordVisible ? 'text' : 'password'"
               label="Mot de passe"
-              placeholder="············"
               :append-icon="isPasswordVisible ? icons.mdiEyeOffOutline : icons.mdiEyeOutline"
               hide-details
               @click:append="isPasswordVisible = !isPasswordVisible"
@@ -130,10 +131,13 @@ methods: {
     axiosClient.post('/register', this.user)
     .then(resp=>{
                 if(resp.status==200)
+                {
                   this.$router.push('/')
+                  this.errors = {}
+                }  
                 })
     .catch((error) =>{
-        this.errors = error.response.data.errors;
+        this.errors = error.response.data;
     });
   },
   
