@@ -26,10 +26,8 @@
         <!-- login form -->
         <v-card-text>
         <!--Error alert-->
-        <v-alert v-for="(errorArray, idx) in errors" :key="idx" type="error">
-          <div v-for="(allErrors, idx) in errorArray" :key="idx">
-                <span >{{ allErrors }} </span>
-          </div>  
+        <v-alert v-for="(error, idx) in errors" :key="idx" type="error">
+          <span >{{ error }} </span>
         </v-alert>
         <!--End Error alert-->
           <v-form @submit.prevent="handleLogin">
@@ -50,13 +48,6 @@
               hide-details
               @click:append="isPasswordVisible = !isPasswordVisible"
             ></v-text-field>
-
-            <div class="d-flex align-center justify-space-between flex-wrap">
-
-              <!-- forgot link -->
-              <a href="javascript:void(0)" class="mt-1"> Mot de passe oublié? </a>
-            </div>
-
             <v-btn type="submit" block color="primary" class="mt-6"> Login </v-btn>
           </v-form>
         </v-card-text>
@@ -69,10 +60,10 @@
       </v-card>
     </div>
 
-    <!-- background triangle shape  -->
-    <img
+     <!-- background triangle shape  -->
+     <img
       class="auth-mask-bg"
-      height="173"
+      height="190"
       :src="require(`@/assets/images/misc/mask-${$vuetify.theme.dark ? 'dark' : 'light'}.png`).default"
     />
 
@@ -90,7 +81,6 @@
 </template>
 
 <script>
-// eslint-disable-next-line object-curly-newline
 import { mdiEyeOutline, mdiEyeOffOutline } from '@mdi/js'
 import { ref } from '@vue/composition-api'
 import axios from 'axios';
@@ -100,12 +90,8 @@ import store from '@/store';
 export default {
   setup() {
     const isPasswordVisible = ref(false)
-    const email = ref('')
-    const password = ref('')
     return {
       isPasswordVisible,
-      email,
-      password,
       icons: {
         mdiEyeOutline,
         mdiEyeOffOutline,
@@ -140,7 +126,7 @@ export default {
             
           }
         }).catch(error=>{
-            console.log(error.response.data)
+         
             this.errors = error.response.data;
             sessionStorage.removeItem('userToken');
         });

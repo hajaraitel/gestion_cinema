@@ -3,14 +3,15 @@
     <template v-slot:activator="{ on, attrs }">
       
         <v-avatar size="40px" v-bind="attrs" v-on="on">
-          <v-img :src="require('@/assets/images/avatars/1.png').default"></v-img>
+          <v-img :src="user.photo"></v-img>
+          <!--v-bind:src="this.user.photo"-->
         </v-avatar>
       
     </template>
     <v-list>
       <div class="pb-3 pt-2 ml-2">
           <v-avatar size="40px">
-            <v-img :src="require('@/assets/images/avatars/1.png').default"></v-img>
+            <v-img :src="user.photo"></v-img>
           </v-avatar>
           
         <div class="d-inline-flex flex-column justify-center ms-3" style="vertical-align: middle">
@@ -71,8 +72,15 @@ export default {
       this.$router.push('/');
     }
   },
+  watch:{
+
+  },
   mounted(){
-    this.user = JSON.parse(localStorage.getItem('currentUser'))
+    window.addEventListener('updateUser', (event) => {
+    this.user = JSON.parse(event.detail.storage);
+  });
+
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
   },
   setup() {
     return {

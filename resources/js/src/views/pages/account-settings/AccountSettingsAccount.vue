@@ -4,21 +4,25 @@
     class="pa-3 mt-2"
   >
     <v-card-text>
-      <v-form class="multi-col-validation mt-6" enctype="multipart/form-data">
-<!--photo-->
+      <v-form class="multi-col-validation mt-6" enctype="multipart/form-data" ref="form" v-model="valid">
+      <!--message alert-->
+        <v-alert v-for="(msg, idx) in messages" :key="idx" :type="type">
+          <span >{{ msg }} </span>
+        </v-alert>
+      <!--End message alert-->
+      <!--photo-->
       <v-card-text class="d-flex">
         <v-avatar
           rounded
           size="120"
           class="me-6"
         >
-        <v-img v-bind:src="accountData.photo"></v-img>
+        <v-img v-bind:src="imageUrl"></v-img>
         </v-avatar>
 
         <!-- upload photo -->
         <div>
           <v-file-input
-          ref="fileEvent"
           name="photo"
           @change="onChange"
           accept="image/png, image/jpeg, image/jpg"
@@ -40,6 +44,8 @@
               label="Nom"
               dense
               outlined
+              :rules="[v => !!v || 'Champs obligatoire']"
+              required
             ></v-text-field>
           </v-col>
 
@@ -52,6 +58,7 @@
               label="Prenom"
               dense
               outlined
+              :rules="[v => !!v || 'Champs obligatoire']"
             ></v-text-field>
           </v-col>
 
@@ -64,6 +71,7 @@
               label="E-mail"
               dense
               outlined
+              readonly
             ></v-text-field>
           </v-col>
 
@@ -115,6 +123,7 @@
               color="primary"
               class="me-3 mt-4"
               @click.prevent="enregistrer"
+              :disabled="!valid"
             >
               Enregistrer
             </v-btn>
@@ -137,43 +146,47 @@
 import { mdiAlertOutline, mdiCloudUploadOutline,mdiCamera } from '@mdi/js'
 import { ref } from '@vue/composition-api'
 import axiosClient from '@/axios';
+import { validate } from 'json-schema';
 export default {
   methods: {
+    validate () {
+       this.$refs.form.validate()
+      },
     enregistrer(){
       axiosClient.put("/user/"+this.accountData.idUser,this.accountData)
         .then(resp=>{
-          console.log(resp)
-            /* if(resp.status==200)
+             if(resp.status==200)
             {
-                
-            }*/
-        }).catch(e=>{
-                this.errors = e.response.data
-            });
-    },
-    onChange(files){
-      this.accountData.photo = files.name
-    }
-    //create image for preview
-   /* createImage(file) 
-    {
-      const reader = new FileReader();
+                this.messages={text:"Profile modifié avec succès"}
+                this.type="success"
+                localStorage.setItem('currentUser',JSON.stringify(resp.data.user))
+                window.dispatchEvent(new CustomEvent('updateUser',{
+                  detail:{
+                    storage:localStorage.getItem('currentUser')
+                  }
+                }))
 
-      reader.onload = e => {
-        this.imageUrl = e.target.result;
-      };
-      reader.readAsDataURL(file);
+            }
+        }).catch(e=>{
+                this.messages = e.response.data
+                this.type="error"
+            });
+            
     },
-    onFileChange(file) {
-    if (!file) {
-      return;
-      //this.imageUrl = this.accountData.photo
+    onChange(file){
+      if(file!=null)
+      {
+        this.accountData.photo = file.name
+        this.imageUrl = URL.createObjectURL(file)
+      }  
+      else
+      { 
+        this.accountData.photo = null
+        this.imageUrl=''
+      } 
+      
     }
-    this.createImage(file);
-  },
-    Preview_image(files){
-      this.accountData.photo = files.name
-    }*/
+    
   },  
   
   props: {
@@ -181,20 +194,22 @@ export default {
   },
   data () {
     return {
-      image: undefined,
-      // to save image url
-      imageUrl: ""
+      valid: true,
+      messages:{},
+      type:'error',
+      imageUrl:this.accountData.photo
     }
   },
- /* beforeUpdate () {
-    
-    this.imageUrl=this.accountData.photo
-  },*/
+watch:{
+  accountData : function(newVal){
+    this.imageUrl = newVal.photo
+  }
+},
   computed:{
     getRole(){
      return this.accountData.is_admin  ? 'admin' : 'user'
     },
-  },
+   },
   setup() {
     return {
       icons: {
@@ -203,5 +218,6 @@ export default {
       },
     }
   },
+
 }
 </script>
