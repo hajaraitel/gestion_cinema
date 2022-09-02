@@ -1,7 +1,7 @@
 <template>
 <!-- Film Card -->
  
-  <v-col sm="6" cols="12">
+  <v-col sm="6" cols="12" class="mt-0">
     <v-card class="d-flex align-center">
       <div class="d-flex justify-space-between flex-wrap flex-md-nowrap flex-column flex-md-row">
         <div class="mx-auto">

@@ -2,7 +2,7 @@
 <v-app>
   <v-row>
   <v-form v-model="valid">
-    <v-container>
+    <v-container class="pb-0">
       <v-row>
         <v-col
           cols="12"

@@ -15,11 +15,13 @@
                 </tr>
                 <tr>
                     <td  class="header">Date seance : </td>
-                    <td class="seance-value">{{ seanceInfo.date_seance }}</td>
+                    <td class="seance-value">{{ str_to_date(seanceInfo.date_seance) }}</td>
                 </tr>
                 <tr>
                     <td  class="header">Heure seance : </td>
-                    <td class="seance-value">{{ seanceInfo.horaire }}</td>
+                    <td class="seance-value">
+                        {{ seanceInfo.horaire ? seanceInfo.horaire.substring(0, seanceInfo.horaire.length-3) : '' }}
+                    </td>
                 </tr>
 
             </table>
@@ -228,6 +230,12 @@ export default {
         axiosClient.get('/seance/'+idSeance).then(resp => {this.seanceInfo=resp.data})
         .catch(err=>{ console.log(err) })
     },
+    
+    str_to_date(str)
+    {
+    let dt = new Date(str);
+    return  dt.toLocaleDateString();
+    }
   },
   data () {
     return {

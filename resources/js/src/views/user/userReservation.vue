@@ -30,6 +30,12 @@
         <template v-slot:item.prix_total="{ item }"> 
             {{ item.prix_total }} <span>DH</span>
         </template>
+        <!--affichage date seance-->
+        <template v-slot:item.date_seance="{ item }"> 
+            {{ 
+              str_to_date(item.date_seance)
+            }} 
+        </template>
         <!--affichage horaire-->
         <template v-slot:item.horaire="{ item }">
             {{ item.horaire.substring(0, item.horaire.length-3) }}
@@ -86,7 +92,7 @@
     <!--expanded-->
     <template v-slot:expanded-item="{ headers, item }">
       <td :colspan="headers.length">
-        Date réservation : {{ item.date_reservation }} 
+        Date réservation : {{ str_to_date(item.date_reservation) }} 
       </td>
     </template>
     </v-data-table>
@@ -135,7 +141,11 @@ import { mdiCancel } from '@mdi/js';
           this.canceledIndex = -1
         })
       },
-
+      str_to_date(str)
+      {
+        let dt = new Date(str);
+        return  dt.toLocaleDateString();
+      }
   },
     data () {
       return {
@@ -149,7 +159,6 @@ import { mdiCancel } from '@mdi/js';
           { text: 'Nb adult', value: 'nb_adult', class:"purple darken-4",},
           { text: 'Nb enfant', value: 'nb_enfant' ,class:"purple darken-4",},
           { text: 'Total', value: 'prix_total' ,class:"purple darken-4",},
-         // { text: 'Date réservation', value: 'date_reservation', class:"purple darken-4",},
           { text: 'status', value: 'est_annule' ,class:"purple darken-4",},
           { text: 'Actions', value: 'actions', sortable: false },
           { text: '', value: 'data-table-expand' },
