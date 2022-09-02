@@ -55,7 +55,7 @@ class ReservationController extends Controller
 
         //cas erreur
         if ($credentials->fails()) {
-            return response()->json([$credentials->messages()], 401);
+            return response()->json($credentials->errors()->all(), 401);
         }
         //ok
         $validated = $credentials->validated();
