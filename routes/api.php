@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentaireController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\SeanceController;
+use App\Http\Controllers\MailController;
 use App\Services\FilmService;
 use App\Services\ReservationService;
 use App\Services\SeanceService;
@@ -49,7 +50,7 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::get('/seances',[SeanceService::class,'index']);
     //
     Route::put('/userRole/{user}',[UserController::class,'updateRole']);
-    //check seance avaibility
+    //check seance availability
     Route::get('/availability/{idSeance}',[SeanceService::class,'seance_remplie']);
     //
     Route::put('/updatePassword/{idUser}',[UserController::class,'update_password']);

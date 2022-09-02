@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reservation;
+use App\Services\ReservationService;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use App\Mail\reservationMail;
+use Mail;
 
 class ReservationController extends Controller
 {
@@ -56,8 +59,6 @@ class ReservationController extends Controller
         }
         //ok
         $validated = $credentials->validated();
-        //$date = Carbon::now();// will get you the current date, time 
-        //dd($date->format("YYYY-MM-D")); //this will dump the date time in the desired format
         $date =Carbon::now()->toDateString();
         $res = new Reservation();
         
@@ -69,6 +70,10 @@ class ReservationController extends Controller
         $res->date_reservation = $date;
         
         $res->save();
+
+        $resDetail = ReservationService::getReservationDetail($res->idReservation);        
+        Mail::to($resDetail->email)->send(new reservationMail($resDetail));
+        
         return response()->json([
             ['success'=> "la séance à été réserver"]
        ],200);
