@@ -79,13 +79,14 @@
         small
         width="95"
         @click="cancelItem(item)"
+        :disabled="item.est_annule ? true : false"
       >
         <v-icon
           dark
           left
         >
           {{ icons.mdiCancel }}
-        </v-icon>Annuler
+        </v-icon>Annuler 
       </v-btn>
       
     </template>
@@ -112,7 +113,9 @@ import { mdiCancel } from '@mdi/js';
         axiosClient.get('/reservations/user/'+idUser)
         .then(resp=>{
             if(resp.status==200)
+              {
                 this.reserv = resp.data;
+              }
         })
         .catch(err=>{
           console.log(err)
@@ -137,7 +140,6 @@ import { mdiCancel } from '@mdi/js';
       closeCancel () {
         this.dialogCancel = false
         this.$nextTick(() => {
-          //this.canceledItem = Object.assign({}, this.defaultItem)
           this.canceledIndex = -1
         })
       },
@@ -146,6 +148,11 @@ import { mdiCancel } from '@mdi/js';
         let dt = new Date(str);
         return  dt.toLocaleDateString();
       }
+  },
+  computed: {
+    is_canceled() {
+      return this.reserv.est_annule;
+    }
   },
     data () {
       return {
@@ -172,8 +179,10 @@ import { mdiCancel } from '@mdi/js';
         canceledIndex:-1,
         expanded: [],
         singleExpand: false,
+
       }
     },
+    
   }
 </script>
 <style scoped>

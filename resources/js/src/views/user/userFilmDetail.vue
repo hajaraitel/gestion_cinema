@@ -4,22 +4,24 @@
         <v-card>
           <div class="d-flex flex-column-reverse flex-lg-row">
             <div>
-              <v-card-title class="text-uppercase"> {{ this.filmData.titre }} </v-card-title>
+              <v-card-title class="text-uppercase"> 
+                <span style="color:#FD6D81;">{{ this.filmData.titre }} </span>
+                </v-card-title>
               <v-card-text class="d-flex align-center flex-wrap body-1">
-               <span class="text-darkslategray">Réalisateur : {{ this.filmData.realisateur }} </span> 
+               <span class="text-gray">Réalisateur : {{ this.filmData.realisateur }} </span> 
                <v-spacer></v-spacer>
-               <span class="pa-2 text-darkslategray">{{ this.filmData.annee_sortie }} </span>
+               <span class="pa-2 text-gray">{{ this.filmData.annee_sortie }} </span>
               </v-card-text>
-              <v-card-text class="font-weight-medium text-darkgray">
+              <v-card-text class="font-weight-medium text-lightslategray">
                 Acteurs : {{ this.filmData.acteurs }}
               </v-card-text>
-              <v-card-text class="font-weight-medium text-darkgray">
+              <v-card-text class="font-weight-medium text-lightslategray">
                 <span>Genre : {{ this.filmData.genre }}</span> 
               </v-card-text>
-              <v-card-text class="font-weight-medium text-darkgray">
+              <v-card-text class="font-weight-medium text-lightslategray">
                <span>Langue : {{ this.filmData.langue }}</span>
               </v-card-text>
-              <v-card-text class="font-weight-medium text-darkgray">
+              <v-card-text class="font-weight-medium text-lightslategray">
                 Durée : {{ this.filmData.duree }}</v-card-text>
               <v-card-text class="font-weight-medium text-dimgray">
                 {{ this.filmData.description }}
@@ -73,11 +75,11 @@ export default{
 }
 </script>
 <style scoped>
-.text-darkslategray{
-  color:#2F4F4F;
+.text-gray{
+  color:gray;
 }
-.text-darkgray{
-  color :#A9A9A9;
+.text-lightslategray{
+  color :lightslategray;
 }
 .text-dimgray{
   color: #696969;
