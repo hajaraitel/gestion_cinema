@@ -48,8 +48,8 @@ class ReservationController extends Controller
             'nb_enfant' => ['required', 'int'],
             'prix_total' => ['required','numeric'],
         ],[
-            'nb_adult.required'=>'Nombre d\'adulte est obligatoire',
-            'nb_enfant.required'=>'Nombre d\'enfant est obligatoire',
+            'nb_adult.required'=>'Nombre d\'adulte est obligatoire, mettre un 0 à la place du vide',
+            'nb_enfant.required'=>'Nombre d\'enfant est obligatoire, mettre un 0 à la place du vide',
             'prix_total.required'=>'Le prix total est obligatoire',
         ]); 
 

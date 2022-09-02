@@ -236,7 +236,7 @@ export default {
         type:'error',
         user:{},
         months: ['1','2','3','4','5','6','7','8','9','10','11','12'],
-        formData:{idSeance:"",idUser:"",nb_adult:"0",nb_enfant:"0",prix_total:""},
+        formData:{idSeance:"",idUser:"",nb_adult:"",nb_enfant:"",prix_total:""},
         seanceInfo:{},
         numberRule: [
         v => !!v || 'Champs obligatoire',
@@ -272,7 +272,9 @@ export default {
     number_validation(){
         const rules=[]
         if((this.formData.nb_adult=='' && this.formData.nb_enfant=='') || 
-            (this.formData.nb_adult=='0' && this.formData.nb_enfant=='0'))
+            (this.formData.nb_adult=='0' && this.formData.nb_enfant=='0') ||
+            (this.formData.nb_adult=='0' && this.formData.nb_enfant=='') ||
+            (this.formData.nb_adult=='' && this.formData.nb_enfant=='0'))
         {
 
             const rule = v => 'le nombre de personne est obligatoire'
