@@ -14,15 +14,24 @@
         </div>
         <v-divider :vertical="$vuetify.breakpoint.mdAndUp"></v-divider>
         <div>
-          <v-card-title> <b>{{ filmData.titre }}</b> </v-card-title>
-          <v-card-text>
-            genre : {{ filmData.genre }}
-            <br>
-            réalisateur : {{ filmData.realisateur }}
-          </v-card-text>
-          <v-card-text class="text--primary text-base">
-            <span>acteurs : {{ filmData.acteurs }}</span><br>
-            <span>langue : {{ filmData.langue }}</span>
+          <v-card-title > <span style="color:#FD6D81;text-transform: uppercase;">{{ filmData.titre }}</span> </v-card-title>
+          <v-card-text class="text--primary text-base mb-5">
+            <p>
+              <span class="font-weight-regular subtitle-1 title-color">Genre :</span><br>
+              <span class="font-weight-medium subtitle-1 ms-2">{{ filmData.genre }}</span>
+            </p>
+            <p>
+              <span class="font-weight-regular subtitle-1 title-color">Réalisateur :</span> <br>
+              <span class="font-weight-medium subtitle-1 ms-2">{{ filmData.realisateur }}</span>
+            </p>
+            <p>
+              <span class="font-weight-regular subtitle-1 title-color">Acteurs :</span> <br>
+              <span class="font-weight-medium subtitle-1 ms-2">{{ filmData.acteurs }}</span>
+            </p>
+            <p>
+              <span class="font-weight-regular subtitle-1 title-color">Langue :</span> <br>
+              <span class="font-weight-medium subtitle-1 ms-2 purple">{{ filmData.langue }}</span>
+            </p>
           </v-card-text>
           <v-spacer></v-spacer>
           <v-card-actions class="d-flex justify-space-between dense card-actions">
@@ -81,4 +90,7 @@ export default{
   bottom: 0;
 }
 
+.title-color{
+  color:#708090;
+}
 </style>
