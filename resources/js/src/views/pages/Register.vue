@@ -36,7 +36,6 @@
               v-model="user.nom"
               outlined
               label="nom"
-              placeholder="Doe"
               hide-details
               class="mb-3"
             ></v-text-field>
@@ -44,7 +43,6 @@
               v-model="user.prenom"
               outlined
               label="prenom"
-              placeholder="John"
               hide-details
               class="mb-3"
             ></v-text-field>
@@ -53,7 +51,6 @@
               v-model="user.email"
               outlined
               label="Email"
-              placeholder="john@example.com"
               hide-details
               class="mb-3"
             ></v-text-field>
@@ -64,7 +61,6 @@
               outlined
               :type="isPasswordVisible ? 'text' : 'password'"
               label="Mot de passe"
-              placeholder="············"
               :append-icon="isPasswordVisible ? icons.mdiEyeOffOutline : icons.mdiEyeOutline"
               hide-details
               @click:append="isPasswordVisible = !isPasswordVisible"
@@ -103,9 +99,9 @@
       :src="require(`@/assets/images/misc/mask-${$vuetify.theme.dark ? 'dark' : 'light'}.png`).default"
     />
 
-    <!-- tree -->
+    <!-- tree 
     <v-img class="auth-tree" width="247" height="185" :src="require('@/assets/images/misc/tree.png').default"></v-img>
-
+-->
     <!-- tree  -->
     <v-img
       class="auth-tree-3"

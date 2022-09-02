@@ -16,20 +16,25 @@ class AuthController extends Controller
 
         $credentials = Validator::make($request->all(),[
             'email' => ['required', 'email','unique:users'],
-            'password' => ['required'],
-            'nom' => ['required', 'string','max:20'],
-            'prenom' => ['required', 'string','max:20'],
+            'password' => ['required','min:5'],
+            'nom' => ['required', 'regex:/^[a-zA-Z\s]*$/','max:20'],
+            'prenom' => ['required', 'regex:/^[a-zA-Z\s]*$/','max:20'],
             'sexe' => ['string'],
             'photo'=>['string']
         ],[
             'email.required'=>'L\'email est obligatoire',
             'password.required'=>'Mot de passe est obligatoire',
+            'password.min'=>'Mot de passe doit être au moins 5 caractères',
             'nom.required'=>'Nom est obligatoire',
+            'nom.max' => 'Le nom ne doit pas dépasser 20 caractères',
+            'nom.regex' => 'Le nom ne doit pas contenir des nombres',
             'prenom.required'=>'Prénom est obligatoire',
+            'prenom.max' => 'Le prénom ne doit pas dépasser 20 caractères',
+            'prenom.regex' => 'Le prénom ne doit pas contenir des nombres',
             'email.email' => 'Format de l\'email est incorrect',
             'email.unique' => 'L\'email est déjà utilisé',
-            'nom.max' => 'Le nom ne doit pas dépasser 20 caractères',
-            'prenom.max' => 'Le prénom ne doit pas dépasser 20 caractères',
+            
+            
         ]); 
 
         //cas erreur
