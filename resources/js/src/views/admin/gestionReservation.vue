@@ -58,16 +58,14 @@ export default {
     
       /* headers of table*/
       headers: [
-        {
-          text: 'ID',align: 'start',value: 'idReservation',
-        },
+        
         { text: 'Email', value: 'email', sortable: false },
         { text: 'Date Réservation', value: 'date_reservation', sortable: false},
          { text: 'Date Seance', value: 'date_seance', sortable: false},
           { text: 'Adult', value: 'nb_adult', sortable: false },
         { text: 'Enfant', value: 'nb_enfant', sortable: false },
-       { text: 'Status', value: 'est_annule',sortable: false},
          { text: 'Prix Total', value: 'prix_total', sortable: false },
+         { text: 'Status', value: 'est_annule',sortable: false},
       ],
       /** */
       reservations: [],
