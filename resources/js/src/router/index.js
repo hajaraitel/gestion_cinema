@@ -68,7 +68,7 @@ const routes = [
   {
     path: '/admin/gestionUtilisateurs',
     name: 'admin_gestion_utilisateurs',
-   // component: () => import('@/views/admin/gestionSalle.vue'),
+   component: () => import('@/views/admin/gestionUser.vue'),
    
   },
   

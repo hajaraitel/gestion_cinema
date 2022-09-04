@@ -42,9 +42,12 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
 
 //just pour le test ces route doivent etre protege !
 Route::apiResource('salle', SalleController::class);
+
 Route::apiResource('reservation', ReservationController::class);
 Route::get('countUser', [UserController::class,'countUser']);
 Route::get('countFilm', [FilmController::class,'countFilm']);
 Route::get('countReservation', [ReservationController::class,'countReservation']);
 Route::get('sumReservation', [ReservationController::class,'sumReservation']);
+Route::apiResource('user', UserController::class);
+Route::put('users/{id}',[UserController::class,'updateRole']);
 

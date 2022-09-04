@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -14,7 +14,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $list_users=User::all();
+        return response()->json($list_users);
     }
 
     /**
@@ -71,7 +72,24 @@ class UserController extends Controller
     {
         //
     }
-
+    public function updateRole($id)
+    {
+        $user = User::find($id);
+        if($user->is_admin==1)
+        {
+            $user = DB::table('users')
+              ->where('idUser', $id)
+              ->update(['is_admin' => 0]);
+              return response()->json($user);
+        }
+        else{
+            $user = DB::table('users')
+              ->where('idUser', $id)
+              ->update(['is_admin' => 1]);
+              return response()->json($user);
+        }   
+    }
+    
     /**
      * Remove the specified resource from storage.
      *
