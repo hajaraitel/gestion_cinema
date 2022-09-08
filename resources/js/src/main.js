@@ -9,8 +9,20 @@ import axios from 'axios'
 import axiosClient from '@/axios/index'
 import VueAxios from 'vue-axios'
 
+//require('./bootstrap');
+//axios configuration : 
+/*
+window.axios = require('axios');
+
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+window.axios.defaults.withCredentials = true;*/
+
+Vue.use(VueAxios, axios);
+
+//
 Vue.config.productionTip = false
-Vue.use(VueAxios, axios)
+
 
 
 new Vue({

@@ -25,6 +25,11 @@
 
         <!-- login form -->
         <v-card-text>
+        <!--Error alert-->
+        <v-alert v-for="(error, idx) in errors" :key="idx" type="error">
+          <span >{{ error }} </span>
+        </v-alert>
+        <!--End Error alert-->
           <v-form @submit.prevent="handleLogin">
             <v-text-field
               v-model="user.email"
@@ -43,13 +48,6 @@
               hide-details
               @click:append="isPasswordVisible = !isPasswordVisible"
             ></v-text-field>
-
-            <div class="d-flex align-center justify-space-between flex-wrap">
-
-              <!-- forgot link -->
-              <a href="javascript:void(0)" class="mt-1"> Mot de passe oublié? </a>
-            </div>
-
             <v-btn type="submit" block color="primary" class="mt-6"> Login </v-btn>
           </v-form>
         </v-card-text>
@@ -62,42 +60,38 @@
       </v-card>
     </div>
 
-    <!-- background triangle shape  -->
-    <img
+     <!-- background triangle shape  -->
+     <img
       class="auth-mask-bg"
-      height="173"
+      height="190"
       :src="require(`@/assets/images/misc/mask-${$vuetify.theme.dark ? 'dark' : 'light'}.png`).default"
     />
 
-    <!-- tree -->
-    <v-img class="auth-tree" width="247" height="185" :src="require('@/assets/images/misc/tree.png').default"></v-img>
-
-    <!-- tree  -->
+    <!-- tree 
+    <v-img class="auth-tree" width="400" height="285" :src="require('@/assets/images/misc/movie.png').default"></v-img>
+-->
+    <!-- tree  
     <v-img
       class="auth-tree-3"
-      width="377"
-      height="289"
-      :src="require('@/assets/images/misc/tree-3.png').default"
-    ></v-img>
+      width="247"
+      height="185"
+      :src="require('@/assets/images/misc/tree.png').default"
+    ></v-img>-->
   </div>
 </template>
 
 <script>
-// eslint-disable-next-line object-curly-newline
 import { mdiEyeOutline, mdiEyeOffOutline } from '@mdi/js'
 import { ref } from '@vue/composition-api'
 import axios from 'axios';
 import axiosClient from '@/axios/index';
+import store from '@/store';
 
 export default {
   setup() {
     const isPasswordVisible = ref(false)
-    const email = ref('')
-    const password = ref('')
     return {
       isPasswordVisible,
-      email,
-      password,
       icons: {
         mdiEyeOutline,
         mdiEyeOffOutline,
@@ -112,9 +106,34 @@ export default {
   },
   methods:{
     handleLogin(){
-      
-    }
-  }
+      axios.get('/sanctum/csrf-cookie').then(response => {
+        axiosClient.post('login',this.user).then(response=>{
+          if(response.status==200){
+
+            sessionStorage.setItem('userToken', response.data.token);
+            localStorage.setItem('currentUser',JSON.stringify(response.data.user))
+            
+            this.$store.state.currentUser.data = response.data.user;
+
+            if(response.data.user.is_admin)
+              this.$router.push('/admin/dashboard');
+            else if(!response.data.user.is_admin)
+              this.$router.push('/user/dashboard');  
+            else
+              this.$router.push('/'); 
+
+            this.errors = {}
+            
+          }
+        }).catch(error=>{
+         
+            this.errors = error.response.data;
+            sessionStorage.removeItem('userToken');
+        });
+      });
+    },
+  },
+  
 }
 </script>
 

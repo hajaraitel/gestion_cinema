@@ -39,70 +39,95 @@ const routes = [
     path: '/admin/dashboard',
     name: 'admin_dashboard',
     component: () => import('@/views/admin/adminDashboard.vue'),
+    meta:{
+      requiresAuth:true,
+      authorize : 'admin'
+    }
    
   },
   {
     path: '/admin/gestionSalles',
     name: 'admin_gestion_salles',
     component: () => import('@/views/admin/gestionSalle.vue'),
+    meta:{requiresAuth:true,authorize : 'admin'}
    
   },
   {
     path: '/admin/gestionFilms',
     name: 'admin_gestion_films',
    // component: () => import('@/views/admin/gestionSalle.vue'),
+   meta:{requiresAuth:true,authorize : 'admin'}
    
   },
   {
     path: '/admin/gestionSeances',
     name: 'admin_gestion_seances',
   //  component: () => import('@/views/admin/gestionSalle.vue'),
+  meta:{requiresAuth:true,authorize : 'admin'}
    
   },
   {
     path: '/admin/gestionReservations',
     name: 'admin_gestion_reservations',
   //  component: () => import('@/views/admin/gestionSalle.vue'),
+  meta:{requiresAuth:true,authorize : 'admin'}
    
   },
   {
     path: '/admin/gestionUtilisateurs',
     name: 'admin_gestion_utilisateurs',
    // component: () => import('@/views/admin/gestionSalle.vue'),
+   meta:{requiresAuth:true,authorize : 'admin'}
    
   },
   
   {
-    path: '/admin/profile',
+    path: '/admin/profile/:id',
     name: 'admin_profile',
+    props:true,
     component: () => import('@/views/pages/account-settings/AccountSettings.vue'),
+    meta:{requiresAuth:true,authorize : 'admin'}
   },
   /*user routes*/
   {
     path: '/user/dashboard',
     name: 'user_dashboard',
     component: () => import('@/views/user/userDashboard.vue'),
+    meta:{requiresAuth:true,authorize : 'user'}
   },
   
   {
-    path: '/user/profile',
+    path: '/user/profile/:id',
     name: 'user_profile',
     component: () => import('@/views/pages/account-settings/AccountSettings.vue'),
+    props:true,
+    meta:{requiresAuth:true,authorize : 'user'}
   },
   {
-    path: '/user/reservations',
+    path: '/user/reservations/:id',
     name: 'user_reservations',
-    //component: () => import('@/views/pages/Login.vue'),
+    component: () => import('@/views/user/userReservation.vue'),
+    meta:{requiresAuth:true,authorize : 'user'}
   },
   {
-    path: '/user/seances',
+    path: '/user/seances/:idFilm?',
     name: 'user_seances',
-    //component: () => import('@/views/pages/Login.vue'),
+    component: () => import('@/views/user/userSeance.vue'),
+    meta:{requiresAuth:true,authorize : 'user'}
   },
   {
-    path: '/user/films',
-    name: 'user_films',
-    //component: () => import('@/views/pages/Login.vue'),
+    path: '/user/film/:id',
+    name: 'user_film_detail',
+    component: () => import('@/views/user/userFilmDetail.vue'),
+    props:true,
+    meta:{requiresAuth:true,authorize : 'user'}
+  },
+  {
+    path: '/user/reserver/:idSeance',
+    name: 'user_seance_reserver',
+    component: () => import('@/views/user/userSeanceReserver.vue'),
+    props:true,
+    meta:{requiresAuth:true,authorize : 'user'}
   },
 ]
 
@@ -112,5 +137,35 @@ const router = new VueRouter({
   routes,
 });
 
+function isLoggedIn()
+{
+  return 'userToken' in sessionStorage;
+}
+
+function isAdmin()
+{
+  let user = JSON.parse(localStorage.getItem('currentUser'));
+  return user.is_admin
+}
+
+//prevent user from accessing  routes without being connected
+//and prevent user from accessing admin routes and vice versa
+router.beforeEach((to,from,next)=>{
+  if(to.meta.requiresAuth  && !isLoggedIn())
+  {
+      next({'name':'login'});
+  }
+  else {
+    if(
+      (to.meta.authorize == 'admin' && !isAdmin())
+      || 
+      (to.meta.authorize == 'user' && isAdmin())
+      )
+      next({'name':'error-404'});
+    else
+      next();
+
+  }
+});
 
 export default router

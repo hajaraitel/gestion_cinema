@@ -3,19 +3,20 @@
     <template v-slot:activator="{ on, attrs }">
       
         <v-avatar size="40px" v-bind="attrs" v-on="on">
-          <v-img :src="require('@/assets/images/avatars/1.png').default"></v-img>
+          <v-img :src="user.photo"></v-img>
+          <!--v-bind:src="this.user.photo"-->
         </v-avatar>
       
     </template>
     <v-list>
       <div class="pb-3 pt-2 ml-2">
           <v-avatar size="40px">
-            <v-img :src="require('@/assets/images/avatars/1.png').default"></v-img>
+            <v-img :src="user.photo"></v-img>
           </v-avatar>
           
         <div class="d-inline-flex flex-column justify-center ms-3" style="vertical-align: middle">
-          <span class="text--primary font-weight-semibold mb-n1"> John Doe </span>
-          <small class="text--disabled text-capitalize">Admin</small>
+          <span class="text--primary font-weight-semibold mb-n1"> {{ this.user.nom+" "+this.user.prenom }} </span>
+          <!--<small class="text--disabled text-capitalize">Admin</small>-->
         </div>
       </div>
 
@@ -54,31 +55,37 @@
 <script>
 import {
   mdiAccountOutline,
-  mdiEmailOutline,
-  mdiCheckboxMarkedOutline,
-  mdiChatOutline,
-  mdiCogOutline,
-  mdiCurrencyUsd,
-  mdiHelpCircleOutline,
   mdiLogoutVariant,
 } from '@mdi/js'
 
 export default {
+  data () {
+    return {
+      user:{}
+    }
+  },
   methods: {
     logout(){
-      this.$router.push('/')
+      
+      sessionStorage.removeItem('userToken');
+      localStorage.removeItem('currentUser');
+      this.$router.push('/');
     }
+  },
+  watch:{
+
+  },
+  mounted(){
+    window.addEventListener('updateUser', (event) => {
+    this.user = JSON.parse(event.detail.storage);
+  });
+
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
   },
   setup() {
     return {
       icons: {
         mdiAccountOutline,
-        mdiEmailOutline,
-        mdiCheckboxMarkedOutline,
-        mdiChatOutline,
-        mdiCogOutline,
-        mdiCurrencyUsd,
-        mdiHelpCircleOutline,
         mdiLogoutVariant,
       },
     }
