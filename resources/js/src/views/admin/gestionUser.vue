@@ -2,7 +2,7 @@
   <v-data-table :headers="headers"  :items="Users" class="elevation-1">
     <template v-slot:top>
       <v-toolbar flat>
-        <v-toolbar-title>Gestion Utilisateurs</v-toolbar-title>
+        <v-toolbar-title>Les utilisateurs</v-toolbar-title>
         
         <v-divider
           class="mx-4"
