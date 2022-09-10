@@ -21,7 +21,7 @@
       </v-toolbar>
     </template>
    <template #[`item.prix_total`]="{item}">
-        {{ `${item.prix_total} $` }}
+        {{ `${item.prix_total} DH` }}
       </template>
 
     <template v-slot:item.est_annule="{ item }">

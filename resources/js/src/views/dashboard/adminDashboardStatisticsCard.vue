@@ -43,7 +43,7 @@
               {{ countReservation }}
             </h3>
             <h3 class="text-xl font-weight-semibold" v-else-if="data.title=='Revenue'">
-              {{ sumReservation }}$
+              {{ sumReservation }}
             </h3>
           </div>
         </v-col>
