@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('prenom',20);
             $table->string('email',30)->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password',10);
+            $table->string('password',100);
             $table->string('telephone',10)->nullable();
             $table->string('photo',255)->nullable();
             $table->rememberToken();
