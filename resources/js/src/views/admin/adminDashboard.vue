@@ -5,7 +5,7 @@
     </v-col>
 
     <v-col cols="12">
-      <admin-dashboard-datatable></admin-dashboard-datatable>
+      <admin-dashboard-reservation></admin-dashboard-reservation>
     </v-col>
   </v-row>
 </template>
@@ -13,12 +13,12 @@
 <script>
 // demos
 import adminDashboardStatisticsCard from '../dashboard/adminDashboardStatisticsCard.vue'
-import adminDashboardDatatable from '../dashboard/adminDashboardDatatable.vue'
+import adminDashboardReservation from '../admin/gestionReservation.vue'
 import axiosClient from '@/axios/index';
 export default {
   components: {
     adminDashboardStatisticsCard,
-    adminDashboardDatatable
+    adminDashboardReservation
   },
   /** */
   data()

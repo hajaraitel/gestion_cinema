@@ -17,7 +17,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $list_users=User::all();
+        return response()->json($list_users);
     }
 
     /**
@@ -165,5 +166,35 @@ class UserController extends Controller
         }
         return response()->json(["error"=>"user not found"], 400);
     }
+    public function updateRole($id)
+    {
+        $user = User::find($id);
+        if($user->is_admin==1)
+        {
+            $user = DB::table('users')
+              ->where('idUser', $id)
+              ->update(['is_admin' => 0]);
+              return response()->json($user);
+        }
+        else{
+            $user = DB::table('users')
+              ->where('idUser', $id)
+              ->update(['is_admin' => 1]);
+              return response()->json($user);
+        }   
+    }
+
+    public function countUser()
+    {
+        $users = User::all();
+
+        $allUsers = [
+            'users' => $users,
+            'users_count' => $users->count()
+        ];
+
+        return $allUsers;
+    }
+    
 
 }
