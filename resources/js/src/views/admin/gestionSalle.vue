@@ -65,6 +65,7 @@
                     <v-text-field
                       v-model="editedItem.capacite"
                       label="Capacite"
+                      type="number"
                     ></v-text-field>
                   </v-col>
                  
@@ -157,12 +158,12 @@ export default {
       editedItem: {
         nom: '',
         id: 0,
-        capacite: 0,
+        capacite:'',
       },
       defaultItem: {
         nom: '',
         id: 0,
-        capacite: 0,
+        capacite:'',
       },
       
     }),

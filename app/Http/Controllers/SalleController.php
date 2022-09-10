@@ -43,6 +43,10 @@ class SalleController extends Controller
             'nom' => ['required', 'max:20', 'string'],
             'capacite' => ['required','integer'],
             
+        ],[
+            'nom.required'=>'Nom est obligatoire',
+            'capacite.required'=>'capacité est obligatoire'
+        
         ]);
         if ($validator->fails()) {    
             return response()->json($validator->messages()->all(), 400);
@@ -93,6 +97,10 @@ class SalleController extends Controller
             'nom' => ['required', 'max:20', 'string'],
             'capacite' => ['required','integer'],
             
+        ],[
+            'nom.required'=>'Nom est obligatoire',
+            'capacite.required'=>'capacité est obligatoire'
+        
         ]);
         if ($validator->fails()) {    
             return response()->json($validator->messages()->all(), 400);
