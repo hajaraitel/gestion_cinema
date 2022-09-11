@@ -50,7 +50,7 @@ const routes = [
   {
     path: '/admin/gestionFilms',
     name: 'admin_gestion_films',
-   // component: () => import('@/views/admin/gestionSalle.vue'),
+    component: () => import('@/views/admin/gestionFilm.vue'),
    
   },
   {

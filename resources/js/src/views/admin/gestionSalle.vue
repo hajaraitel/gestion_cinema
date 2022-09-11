@@ -1,3 +1,4 @@
+
 <template>
   <v-data-table :headers="headers"  :items="salles" sort-by="capacite" class="elevation-1">
     <template v-slot:top>
