@@ -161,7 +161,7 @@ class FilmController extends Controller
             $film->description = $request->description;
             $film->save();   
             return response()->json(['film'=>$film],200);
-            //return response()->json(['salle'=>$salle],200);
+            
         }
         return "error";
     }

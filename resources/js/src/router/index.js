@@ -56,7 +56,7 @@ const routes = [
   {
     path: '/admin/gestionSeances',
     name: 'admin_gestion_seances',
-  //  component: () => import('@/views/admin/gestionSalle.vue'),
+    component: () => import('@/views/admin/gestionSeance.vue'),
    
   },
   {
