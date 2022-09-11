@@ -123,8 +123,6 @@ class FilmController extends Controller
             'langue' => ['required', 'max:20', 'string'],
             'description' => ['required', 'max:200', 'string'],
             
-            
-         
             'titre.required'=>'le titre est obligatoire',
             'annee_sortie.required'=>'annee_sortie est obligatoire',
             'realisateur.required'=>'le realissateur est obligatoire',
