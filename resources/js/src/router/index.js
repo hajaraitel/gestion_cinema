@@ -55,14 +55,14 @@ const routes = [
   {
     path: '/admin/gestionFilms',
     name: 'admin_gestion_films',
-   // component: () => import('@/views/admin/gestionSalle.vue'),
+    component: () => import('@/views/admin/gestionFilm.vue'),
    meta:{requiresAuth:true,authorize : 'admin'}
    
   },
   {
     path: '/admin/gestionSeances',
     name: 'admin_gestion_seances',
-  //  component: () => import('@/views/admin/gestionSalle.vue'),
+    component: () => import('@/views/admin/gestionSeance.vue'),
   meta:{requiresAuth:true,authorize : 'admin'}
    
   },

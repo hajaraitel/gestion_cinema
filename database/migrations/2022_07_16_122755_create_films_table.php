@@ -19,7 +19,7 @@ class CreateFilmsTable extends Migration
             $table->integer('annee_sortie')->nullable();
             $table->string('realisateur',100);
             $table->string('acteurs',255);
-            $table->time('duree');
+            $table->string('duree');
             $table->string('affiche',255);
             $table->string('genre',255);
             $table->string('langue',100)->nullable();

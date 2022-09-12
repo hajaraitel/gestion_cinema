@@ -28,6 +28,21 @@ class SeanceService
          
     }
 
+    /**
+     * show seance detail
+     */
+    public function showBySeance($idSeance)
+    {
+        $seance = DB::table('seances')
+            ->Join('salles', 'salles.idSalle', '=', 'seances.idSalle')
+            ->Join('films', 'films.idFilm', '=', 'seances.idFilm')
+            ->select('seances.*', 'salles.nom as nom_salle','salles.capacite','films.titre')
+            ->where('seances.idSeance', '=', $idSeance)
+            ->get()->first();
+        
+        return response()->json($seance);
+    }
+
      /**
      * Display the specified seances for a movie.
      */

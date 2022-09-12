@@ -227,7 +227,7 @@ export default {
     },
     getSeanceInfo(idSeance)
     {
-        axiosClient.get('/seance/'+idSeance).then(resp => {this.seanceInfo=resp.data})
+        axiosClient.get('/seance/detail/'+idSeance).then(resp => {this.seanceInfo=resp.data})
         .catch(err=>{ console.log(err) })
     },
     

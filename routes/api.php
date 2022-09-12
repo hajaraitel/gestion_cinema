@@ -48,6 +48,7 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     //
     Route::get('/seances/film/{idFilm}',[SeanceService::class,'showByMovie']);
     Route::get('/seances',[SeanceService::class,'index']);
+    Route::get('/seance/detail/{idSeance}',[SeanceService::class,'showBySeance']);
     //
     Route::get('/availability/{idSeance}',[SeanceService::class,'seance_remplie']);
     //
@@ -57,7 +58,8 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::get('countReservation', [ReservationController::class,'countReservation']);
     Route::get('sumReservation', [ReservationController::class,'sumReservation']);
     Route::put('users/{id}',[UserController::class,'updateRole']);
-    }
+    
+}
 );
 
 //just pour le test ces route doivent etre protege !
