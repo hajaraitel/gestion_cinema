@@ -14,7 +14,7 @@ class FilmController extends Controller
      */
     public function index()
     {
-        
+        //
     }
 
     /**
@@ -46,7 +46,7 @@ class FilmController extends Controller
      */
     public function show($id)
     {
-        
+        //
     }
 
     /**
@@ -81,5 +81,16 @@ class FilmController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function countFilm()
+    {
+        $films = Film::all();
+
+        $allFilms = [
+            'films' => $films,
+            'films_count' => $films->count()
+        ];
+
+        return $allFilms;
     }
 }

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Salle;
 use Illuminate\Http\Request;
-
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 class SalleController extends Controller
 {
     /**
@@ -36,12 +38,27 @@ class SalleController extends Controller
      */
     public function store(Request $request)
     {
-        //need validation 
+        //validation 
+        $validator  = Validator::make($request->all(), [
+            'nom' => ['required', 'max:20', 'string'],
+            'capacite' => ['required','integer'],
+            
+        ],[
+            'nom.required'=>'Nom est obligatoire',
+            'capacite.required'=>'capacité est obligatoire'
+        
+        ]);
+        if ($validator->fails()) {    
+            return response()->json($validator->messages()->all(), 400);
+        }
+
+        $validated = $validator->validated();
+        //
         $salle = new Salle();
         $salle->nom =  $request->nom;
         $salle->capacite = $request->capacite;
         $salle->save();   
-        return response()->json($salle);
+        return response()->json(['salle'=>$salle],200);
     }
 
     /**
@@ -76,15 +93,30 @@ class SalleController extends Controller
     public function update(Request $request, $idSalle)
     {
         //need validation
+        $validator  = Validator::make($request->all(), [
+            'nom' => ['required', 'max:20', 'string'],
+            'capacite' => ['required','integer'],
+            
+        ],[
+            'nom.required'=>'Nom est obligatoire',
+            'capacite.required'=>'capacité est obligatoire'
+        
+        ]);
+        if ($validator->fails()) {    
+            return response()->json($validator->messages()->all(), 400);
+        }
+
+        $validated = $validator->validated();
         $salle = Salle::find($idSalle);
         if($salle)
         {
             $salle->nom =  $request->nom;
             $salle->capacite = $request->capacite;
             $salle->save();
-            return response()->json($salle);
+            return response()->json(['salle'=>$salle],200);
         }
-        return "erreur";   
+        return response()->json(["error"=>"erreur lors de l'enregistrement"], 400); 
+
     }
 
     /**

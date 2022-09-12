@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Reservation;
 use App\Services\ReservationService;
@@ -20,7 +20,12 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        //
+        $list_reservation= DB::table('reservations')
+        ->Join('users','reservations.idUser','=',"users.idUser")
+        ->Join('seances','reservations.idSeance','=',"seances.idSeance")
+        ->select('reservations.*','users.nom','users.prenom','users.email','seances.date_seance',)
+        ->get();
+        return response()->json($list_reservation);
     }
 
     /**
@@ -133,5 +138,27 @@ class ReservationController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function countReservation()
+    {
+        $reservations = Reservation::all();
+
+        $allReservations = [
+            'reservations' => $reservations,
+            'reservations_count' => $reservations->count()
+        ];
+
+        return $allReservations;
+    }
+    public function sumReservation()
+    {
+        $reservations = Reservation::all();
+
+        $allReservations = [
+            'reservations' => $reservations,
+            'reservations_sum' => $reservations->sum('prix_total')
+        ];
+
+        return $allReservations;
     }
 }
