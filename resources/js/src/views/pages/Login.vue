@@ -43,12 +43,12 @@
               v-model="user.password"
               outlined
               :type="isPasswordVisible ? 'text' : 'password'"
-              label="Password"
+              label="Mot de passe"
               :append-icon="isPasswordVisible ? icons.mdiEyeOffOutline : icons.mdiEyeOutline"
               hide-details
               @click:append="isPasswordVisible = !isPasswordVisible"
             ></v-text-field>
-            <v-btn type="submit" block color="primary" class="mt-6"> Login </v-btn>
+            <v-btn type="submit" block color="primary" class="mt-6"> Se connecter </v-btn>
           </v-form>
         </v-card-text>
 
