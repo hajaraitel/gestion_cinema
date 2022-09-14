@@ -45,8 +45,8 @@ class SeanceController extends Controller
     {
         $validator  = Validator::make($request->all(), [
            
-            'version' => ['required', 'max:30', 'string'],
-            
+            'version' => ['required', 'max:30', 'string']],
+            [
             'date_seance.required'=>'la date de seance est obligatoire',
             'horaire.required'=>'horaire est obligatoire',
             'prix.required'=>'le prix est obligatoire',
@@ -103,8 +103,8 @@ class SeanceController extends Controller
     {
         $validator  = Validator::make($request->all(), [
          
-            'version' => ['required', 'max:30', 'string'],
-            
+            'version' => ['required', 'max:30', 'string']],
+            [
             'date_seance.required'=>'la date de seance est obligatoire',
             'horaire.required'=>'horaire est obligatoire',
             'prix.required'=>'le prix est obligatoire',
