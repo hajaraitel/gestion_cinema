@@ -31,13 +31,12 @@
       <nav-menu-link title="Accueil" :to="{ name: 'user_dashboard' }" :icon="icons.mdiHomeOutline"></nav-menu-link>
       <nav-menu-link
         title="Profile"
-        :to="{ name: 'user_profile' }"
+        :to="{ name: 'user_profile' , params: { id: this.user.idUser }}"
         :icon="icons.mdiAccountCogOutline"
       ></nav-menu-link>
       <v-divider class="mt-5 mb-5"></v-divider>
-      <nav-menu-link title="Mes reservations" :to="{ name: 'user_reservations' }" :icon="icons.mdiClipboardOutline"></nav-menu-link>
+      <nav-menu-link title="Mes reservations" :to="{ name: 'user_reservations' ,params: { id: this.user.idUser }}" :icon="icons.mdiClipboardOutline"></nav-menu-link>
       <nav-menu-link title="Voir Seances" :to="{ name: 'user_seances' }" :icon="icons.mdiEyeOutline"></nav-menu-link>
-      <nav-menu-link title="Voir Films" :to="{ name: 'user_films' }" :icon="icons.mdiMovieOpenOutline "></nav-menu-link>
   </v-list>
     
   </v-navigation-drawer>
@@ -57,6 +56,11 @@ import NavMenuGroup from './components/NavMenuGroup.vue'
 import NavMenuLink from './components/NavMenuLink.vue'
 
 export default {
+  data () {
+    return {
+      user:{}
+    }
+  },
   components: {
     NavMenuSectionTitle,
     NavMenuGroup,
@@ -79,6 +83,9 @@ export default {
       },
     }
   },
+  mounted(){
+    this.user = JSON.parse(localStorage.getItem('currentUser'))
+  }
 }
 </script>
 

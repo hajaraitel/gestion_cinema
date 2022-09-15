@@ -1,8 +1,18 @@
 <template>
   <v-data-table :headers="headers"  :items="salles" sort-by="capacite" class="elevation-1">
     <template v-slot:top>
+      <v-alert v-for="(msg, idx) in messages" :key="idx" :type="type"
+      
+      
+      dismissible
+      border="left"
+      elevation="2"
+      
+      >
+          <span >{{ msg }} </span>
+        </v-alert>
       <v-toolbar flat>
-        <v-toolbar-title>Gestion Salles</v-toolbar-title>
+        <v-toolbar-title>Les salles</v-toolbar-title>
         
         <v-divider
           class="mx-4"
@@ -21,7 +31,7 @@
             <v-card-title>
               <span class="text-h5">{{ formTitle }}</span>
             </v-card-title>
-
+            
             <v-card-text>
               <v-container>
                 <v-row>
@@ -55,6 +65,7 @@
                     <v-text-field
                       v-model="editedItem.capacite"
                       label="Capacite"
+                      type="number"
                     ></v-text-field>
                   </v-col>
                  
@@ -122,7 +133,8 @@
 <script>
 import axiosClient from '@/axios/index';
 import {mdiDelete,mdiPencil} from '@mdi/js';
-
+import { validate } from 'json-schema';
+import { ref } from '@vue/composition-api'
 export default {
     data: () => ({
       
@@ -138,17 +150,20 @@ export default {
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       /** */
+      
+      messages:{},
+      type:'error',
       salles: [],
       editedIndex: -1,
       editedItem: {
         nom: '',
         id: 0,
-        capacite: 0,
+        capacite:'',
       },
       defaultItem: {
         nom: '',
         id: 0,
-        capacite: 0,
+        capacite:'',
       },
       
     }),
@@ -179,6 +194,9 @@ export default {
     },
 
     methods: {
+      validate () {
+       this.$refs.form.validate()
+      },
         isBlank(str) {
             return (!str || /^\s*$/.test(str));
         },
@@ -233,8 +251,13 @@ export default {
           axiosClient.put("/salle/"+this.editedItem.idSalle,this.editedItem)
                 .then(resp=>{
                     if(resp.status==200)
-                        console.log("success")
-                })
+                    this.messages={text:"Salle modifiée avec succès"}
+                this.type="success"
+                
+                }).catch(e=>{
+                this.messages = e.response.data
+                this.type="error"
+            });
         } else {
           
           //valider
@@ -243,9 +266,15 @@ export default {
           axiosClient.post('/salle',this.editedItem).then(
                 resp=>{
                     if(resp.status==200)
-                        console.log("success")
+                    this.messages={text:"Salle ajoutée avec succès"}
+                this.type="success"
+                
                     }
-            )
+            ).catch(e=>{
+                this.messages = e.response.data
+                this.type="error"
+            });
+
         }
         this.close()
         this.initialize()
