@@ -4,6 +4,7 @@ projet fin d'etude de gestion d'une salle de cinema
 * git clone https://github.com/hajaraitel/gestion_cinema.git
 * composer install
 * create .env file and .gitignore file
+* copy envExample.txt into .env and gitignoreExample into .gitignore
 * php artisan key:generate
 * npm install
 * npm run dev
